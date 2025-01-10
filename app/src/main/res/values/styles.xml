@@ -8,8 +8,8 @@
 
     <style name="AppTheme" parent="Base.Theme.BanditAndroid">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green</item>
-        <item name="colorAccent">@color/colorAccent</item>
+<!--        <item name="colorPrimary">@color/green</item>-->
+<!--        <item name="colorPrimaryDark">@color/green</item>-->
+<!--        <item name="colorAccent">@color/colorAccent</item>-->
     </style>
 </resources>

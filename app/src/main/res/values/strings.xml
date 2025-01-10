@@ -3,4 +3,5 @@
     <string name="app_title">BandMate</string>
     <string name="app_sub_title">Unite. Create. Perform</string>
     <string name="login_with_gmail">login with gmail</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
 </resources>
