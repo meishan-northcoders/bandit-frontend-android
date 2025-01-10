@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="GreenButtonStyle" >
+        <item name="background">@color/green</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="AppTheme" parent="Base.Theme.BanditAndroid">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+</resources>

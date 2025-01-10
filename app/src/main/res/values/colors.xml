@@ -4,7 +4,16 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#4E4545</color>
     <color name="brown">#8E504C</color>
-    <color name="green">#CDDC39</color>
+    <color name="blue">#CDDC39</color>
+    <color name="green">#278029</color>
+    <!--   Color for the app bar and other primary UI elements. -->
+    <color name="colorPrimary">#3F51B5</color>
 
+    <!--   A darker variant of the primary color, used for
+           the status bar (on Android 5.0+) and contextual app bars. -->
+    <color name="colorPrimaryDark">#303F9F</color>
+
+    <!--   a secondary color for controls like checkboxes and text fields. -->
+    <color name="colorAccent">#FF4081</color>
 
 </resources>
