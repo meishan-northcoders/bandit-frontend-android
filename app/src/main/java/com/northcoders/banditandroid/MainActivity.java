@@ -171,9 +171,9 @@ public class MainActivity extends AppCompatActivity {
 //        startActivity(new Intent(MainActivity.this, ActivityProfile.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 //        Toast.makeText(this, "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
         Intent profileIntent = new Intent(MainActivity.this, ActivityProfile.class);
-        profileIntent.putExtra("userName", user.getDisplayName());
-        profileIntent.putExtra("userEmail", user.getEmail());
-        profileIntent.putExtra("userPhotoUrl", user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null);
+//        profileIntent.putExtra("userName", user.getDisplayName());
+//        profileIntent.putExtra("userEmail", user.getEmail());
+//        profileIntent.putExtra("userPhotoUrl", user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null);
         profileIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(profileIntent);
         Toast.makeText(this, "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
