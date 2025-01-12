@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "259890167411",
+    "project_id": "banditandroid-67930",
+    "storage_bucket": "banditandroid-67930.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259890167411:android:604a0e8095ddf4930df406",
+        "android_client_info": {
+          "package_name": "com.northcoders.banditandroid1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259890167411-4a0b4tbiagjad41r5mrs7q7ijnqnitoj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.northcoders.banditandroid1",
+            "certificate_hash": "0b37911c5d917a8e61dfb3573b74d21966ac6c5f"
+          }
+        },
+        {
+          "client_id": "259890167411-i7sb2bfq6uov0imbqei9gkssj25r136o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkB8_kkvED_N_7Bw9a6rYfypb6_TTV_cA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259890167411-i7sb2bfq6uov0imbqei9gkssj25r136o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
