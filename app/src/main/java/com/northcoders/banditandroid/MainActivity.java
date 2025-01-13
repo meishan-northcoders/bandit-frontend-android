@@ -30,7 +30,9 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.northcoders.banditandroid.helper.SharedPreferenceHelper;
 import com.northcoders.banditandroid.service.BandMateApiService;
 import com.northcoders.banditandroid.service.RetrofitInstance;
 
@@ -56,9 +58,7 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
-        connectToBackend();
         btnbyId = findViewById(R.id.btnGoogleSignIn);
-
         btnbyId.setOnClickListener((View.OnClickListener) view -> {
             // Initialize sign in intent
             FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -73,7 +73,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void connectToBackend() {
         BandMateApiService bandMateApiService = RetrofitInstance.getService();
-        Call<ResponseBody> greeting = bandMateApiService.getGreeting();
+        //get token from firebase synchronously
+        String token = SharedPreferenceHelper.getInstance(getApplicationContext()).getString("token", null);
+
+        Call<ResponseBody> greeting = bandMateApiService.getGreeting("Bearer "+token);
         greeting.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -138,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private void handleSignIn(GetCredentialResponse credentialResponse) {
         Credential credential = credentialResponse.getCredential();
         googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.getData());
@@ -151,14 +153,17 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "Firebase login success");
                     FirebaseUser user = task.getResult().getUser();
                     assert user != null;
-                    if(Objects.requireNonNull(task.getResult().getAdditionalUserInfo()).isNewUser()){
+
+                    if (Objects.requireNonNull(task.getResult().getAdditionalUserInfo()).isNewUser()) {
                         //New user registration
-                        Log.i(TAG, "new user registration flow");
+                        Log.i(TAG, "new user registration flow");  // CREATE NEW PROFILE IN BACKEND
                         setProfile(user);
-                    }else {
-                        Log.i(TAG, "existing user flow");
+                    } else {
+                        Log.i(TAG, "existing user flow"); // RETRIEVE PROFILE AND DISPLAY
                         setProfile(user);
                     }
+
+
                 } else {
                     Log.e(TAG, "Firebase login failed", task.getException());
                 }
@@ -167,16 +172,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setProfile(FirebaseUser user) {
-        // Handle UI updates for the signed-in user.
-//        startActivity(new Intent(MainActivity.this, ActivityProfile.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-//        Toast.makeText(this, "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
-        Intent profileIntent = new Intent(MainActivity.this, ActivityProfile.class);
-//        profileIntent.putExtra("userName", user.getDisplayName());
-//        profileIntent.putExtra("userEmail", user.getEmail());
-//        profileIntent.putExtra("userPhotoUrl", user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null);
-        profileIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(profileIntent);
-        Toast.makeText(this, "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+        user.getIdToken(true).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.i(TAG, "Token retrieved successfully");
+                // Handle UI updates for the signed-in user.
+                Intent profileIntent = new Intent(MainActivity.this, ActivityProfile.class);
+                profileIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(profileIntent);
+//                    Toast.makeText(this, "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+                SharedPreferenceHelper.getInstance(getApplicationContext()).putString("token", task.getResult().getToken());
+            } else {
+                Log.e(TAG, "Token retrieval failed", task.getException());
+            }
+            //TODO move this to on created profile activity
+            connectToBackend();
+        });
+
     }
 
 }
