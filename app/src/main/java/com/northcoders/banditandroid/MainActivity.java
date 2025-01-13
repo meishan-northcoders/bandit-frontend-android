@@ -10,27 +10,22 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.credentials.ClearCredentialStateRequest;
 import androidx.credentials.Credential;
 import androidx.credentials.CredentialManager;
 import androidx.credentials.CredentialManagerCallback;
 import androidx.credentials.GetCredentialRequest;
 import androidx.credentials.GetCredentialResponse;
-import androidx.credentials.exceptions.ClearCredentialException;
 import androidx.credentials.exceptions.GetCredentialException;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption;
-import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption;
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
-import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.northcoders.banditandroid.helper.SharedPreferenceHelper;
 import com.northcoders.banditandroid.service.BandMateApiService;
@@ -51,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     View btnbyId;
     private FirebaseAuth mAuth;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,10 +61,8 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 authenticateWithGoogle();
             }
-
         });
     }
-
     private void connectToBackend() {
         BandMateApiService bandMateApiService = RetrofitInstance.getService();
         //get token from firebase synchronously
@@ -97,17 +89,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void authenticateWithGoogle() {
-//        GetSignInWithGoogleOption signInWithGoogleOption = new GetSignInWithGoogleOption
-//                .Builder("259890167411-i7sb2bfq6uov0imbqei9gkssj25r136o.apps.googleusercontent.com")
-//                //.setServerClientId()
-//                //.setFilterByAuthorizedAccounts(true)// even if account is not registered with my app
-//                //.setAutoSelectEnabled(false)
-//                .setNonce("bandMateNonce2587436985147590008743658745896")  // can be any string, used to prevent replay attack
-//                .build();
-
         GetGoogleIdOption signInWithGoogleOption = new GetGoogleIdOption
                 .Builder()
-                .setServerClientId("259890167411-i7sb2bfq6uov0imbqei9gkssj25r136o.apps.googleusercontent.com")
+                .setServerClientId(getString(R.string.web_client_id))
                 .setFilterByAuthorizedAccounts(false)// even if account is not registered with my app
                 .setAutoSelectEnabled(false)
                 .setNonce("bandMateNonce2587436985147590008743658745896")  // can be any string, used to prevent replay attack
@@ -117,9 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 .Builder()
                 .addCredentialOption(signInWithGoogleOption)
                 .build();
-
         CredentialManager credentialManager = CredentialManager.create(this);
-
 
         credentialManager.getCredentialAsync(this,
                 request,
@@ -139,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
     }
-
 
     private void handleSignIn(GetCredentialResponse credentialResponse) {
         Credential credential = credentialResponse.getCredential();
@@ -162,8 +143,6 @@ public class MainActivity extends AppCompatActivity {
                         Log.i(TAG, "existing user flow"); // RETRIEVE PROFILE AND DISPLAY
                         setProfile(user);
                     }
-
-
                 } else {
                     Log.e(TAG, "Firebase login failed", task.getException());
                 }
@@ -179,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent profileIntent = new Intent(MainActivity.this, ActivityProfile.class);
                 profileIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(profileIntent);
-//                    Toast.makeText(this, "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
                 SharedPreferenceHelper.getInstance(getApplicationContext()).putString("token", task.getResult().getToken());
             } else {
                 Log.e(TAG, "Token retrieval failed", task.getException());

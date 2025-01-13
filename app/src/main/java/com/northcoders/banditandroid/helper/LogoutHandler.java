@@ -1,10 +1,8 @@
 package com.northcoders.banditandroid.helper;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.CancellationSignal;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.credentials.ClearCredentialStateRequest;
@@ -17,7 +15,6 @@ import com.northcoders.banditandroid.MainActivity;
 
 public class LogoutHandler {
     private static LogoutHandler logoutHandler;
-
     private LogoutHandler(){}
     public static LogoutHandler getInstance(){
         if(logoutHandler == null){
@@ -40,7 +37,6 @@ public class LogoutHandler {
                     }
                     @Override
                     public void onError(@NonNull ClearCredentialException e) {
-
                     }
                 });
     }

@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.northcoders.banditandroid.service.BandMateApiService;
 import com.northcoders.banditandroid.service.RetrofitInstance;
 
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
