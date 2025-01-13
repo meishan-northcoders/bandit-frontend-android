@@ -15,10 +15,17 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildFeatures {
+            buildConfig true
+        }
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"http://127.0.0.1:8080/\"")
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
