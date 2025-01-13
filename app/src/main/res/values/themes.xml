@@ -5,5 +5,13 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.BanditAndroid" parent="Base.Theme.BanditAndroid" />
+<!--    <style name="Theme.BanditAndroid" parent="Base.Theme.BanditAndroid" />-->
+
+<!--    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
+<!--        <item name="buttonStyle">@style/greenButton</item>-->
+<!--    </style>-->
+<!--    <style name="greenButton" parent="Widget.AppCompat.Button">-->
+<!--        <item name="android:backgroundTint">@color/green</item>-->
+<!--    </style>-->
+
 </resources>
