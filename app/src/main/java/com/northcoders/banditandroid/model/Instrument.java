@@ -1,6 +1,8 @@
 package com.northcoders.banditandroid.model;
 
-public class Instrument {
+import androidx.databinding.BaseObservable;
+
+public class Instrument extends BaseObservable {
 
     String instrument;
 

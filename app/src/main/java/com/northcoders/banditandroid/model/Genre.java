@@ -1,6 +1,8 @@
 package com.northcoders.banditandroid.model;
 
-public class Genre {
+import androidx.databinding.BaseObservable;
+
+public class Genre extends BaseObservable {
 
     String genre;
 

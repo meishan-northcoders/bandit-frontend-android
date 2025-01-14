@@ -1,8 +1,10 @@
 package com.northcoders.banditandroid.model;
 
+import androidx.databinding.BaseObservable;
+
 import java.util.Set;
 
-public class Profile {
+public class Profile extends BaseObservable {
 
     String profile_id;
 

@@ -1,5 +1,6 @@
 package com.northcoders.banditandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.northcoders.banditandroid.service.BandMateApiService;
 import com.northcoders.banditandroid.service.RetrofitInstance;
+import com.northcoders.banditandroid.ui.createprofile.CreateProfileActivity;
 
 import java.io.IOException;
 
@@ -49,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
+        Intent intent = new Intent(this.getApplicationContext(), CreateProfileActivity.class);
+
+        getApplicationContext().startActivity(intent);
 
     }
 }

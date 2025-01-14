@@ -6,6 +6,10 @@ android {
     namespace 'com.northcoders.banditandroid'
     compileSdk 34
 
+    buildFeatures{
+        dataBinding true
+    }
+
     defaultConfig {
         applicationId "com.northcoders.banditandroid"
         minSdk 24
