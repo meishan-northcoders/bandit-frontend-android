@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "98839020042",
+    "project_id": "band-it-9e274",
+    "storage_bucket": "band-it-9e274.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98839020042:android:27a2c92d31c2d8f5f555f3",
+        "android_client_info": {
+          "package_name": "com.northcoders.banditandroid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKvRglZxWax4p6LhkPraRoaMT8Nb01eQo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
