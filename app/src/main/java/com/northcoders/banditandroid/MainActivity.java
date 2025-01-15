@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+import android.window.SplashScreen;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "onSuccess: " + responseContent);
                 } catch (IOException e) {
                     Log.e(TAG, "Error reading response body", e);
+                } catch (NullPointerException e) {
+                    Log.e(TAG, "Response body is null ", e);
                 }
             }
             @Override
@@ -52,9 +55,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = new Intent(this.getApplicationContext(), CreateProfileActivity.class);
 
-        getApplicationContext().startActivity(intent);
+        Intent intent = new Intent(this, CreateProfileActivity.class);
+
+        this.startActivity(intent);
 
     }
 }
