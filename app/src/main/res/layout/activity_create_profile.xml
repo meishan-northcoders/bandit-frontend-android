@@ -10,6 +10,10 @@
         <variable
             name="clickHandler"
             type="com.northcoders.banditandroid.ui.createprofile.CreateProfileClickHandler" />
+
+        <variable
+            name="spinnerAdapter"
+            type="android.widget.ArrayAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +23,7 @@
         tools:context=".ui.createprofile.CreateProfileActivity">
 
         <LinearLayout
+            android:id="@+id/createProfileLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
@@ -35,7 +40,6 @@
                 android:id="@+id/editProfileTypeSpinner"
                 android:layout_width="match_parent"
                 android:spinnerMode="dropdown"
-
                 android:layout_height="wrap_content" />
 
             <EditText
@@ -43,10 +47,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:fontFamily="sans-serif-medium"
                 android:hint="@string/describe_yourself_here"
-                android:text="@{userProfile.description}"
                 android:inputType="text"
-                />
+                android:text="@={userProfile.description}" />
 
         </LinearLayout>
 

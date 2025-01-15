@@ -36,4 +36,12 @@ public class CreateProfileClickHandler {
 //        context.startActivity(intent);
 
     }
+
+
+
+    public void onSelectProfileTypeSpinnerChange(){
+
+
+
+    }
 }

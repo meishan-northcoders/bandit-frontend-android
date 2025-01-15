@@ -8,20 +8,23 @@ import androidx.lifecycle.LiveData;
 
 import com.northcoders.banditandroid.model.Profile;
 import com.northcoders.banditandroid.model.ProfileRepository;
-import com.northcoders.banditandroid.service.BandMateApiService;
+
+import java.util.ArrayList;
 
 public class CreateProfileViewModel extends AndroidViewModel {
 
     ProfileRepository profileRepository;
     public CreateProfileViewModel(@NonNull Application application) {
         super(application);
+        profileRepository = new ProfileRepository(application);
     }
 
-    public LiveData<Profile> getUserProfile(){
-        return profileRepository.getMutableLiveDataProfile();
+    public LiveData<ArrayList<Profile>> getAllProfiles(){
+        return profileRepository.getMutableAllProfiles();
     }
 
     public void createUserProfile(Profile profile){
+        System.out.println("profile is currently: " + profile.toString());
         profileRepository.createUserProfile(profile);
     }
 }
