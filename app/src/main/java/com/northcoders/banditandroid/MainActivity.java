@@ -73,8 +73,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
-                    String responseContent = response.body().string();
-                    Log.d(TAG, "onSuccess: " + responseContent);
+                    if(response.body() != null){
+                        String responseContent = response.body().string();
+                        Log.d(TAG, "onSuccess: " + responseContent);
+                    }
                 } catch (IOException e) {
                     Log.e(TAG, "Error reading response body", e);
                 }

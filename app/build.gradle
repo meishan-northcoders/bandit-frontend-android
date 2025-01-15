@@ -5,6 +5,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('keystore/debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
     namespace 'com.northcoders.banditandroid'
     compileSdk 34
 
@@ -14,17 +22,14 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-
         buildFeatures {
             buildConfig true
         }
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"http://127.0.0.1:8080/\"")
+            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8080/\"")
         }
         release {
             minifyEnabled false
@@ -38,7 +43,6 @@ android {
 }
 
 dependencies {
-
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity

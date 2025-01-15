@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "259890167411-glge7ore0tcq7qihrr6d547m9gbc1880.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.northcoders.banditandroid1",
+            "certificate_hash": "98e88b2399991ee1b565c589543b8b27e6eeb594"
+          }
+        },
+        {
           "client_id": "259890167411-i7sb2bfq6uov0imbqei9gkssj25r136o.apps.googleusercontent.com",
           "client_type": 3
         }
