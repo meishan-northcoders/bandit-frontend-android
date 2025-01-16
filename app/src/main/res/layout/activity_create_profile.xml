@@ -86,7 +86,16 @@
                     android:textSize="24sp"
                     app:layout_constraintTop_toBottomOf="@id/editDescriptionInput" />
 
+                <EditText
+                    android:id="@+id/editAddGenreText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:text="Name" />
+
                 <com.cunoraz.tagview.TagView
+                    android:id="@+id/genreTagView"
                     android:layout_width="match_parent"
                     android:layout_height="202dp"
                     android:backgroundTint="#FFFFFF"
@@ -101,6 +110,14 @@
                     android:text="What instruments can you play?"
                     android:textSize="24sp"
                     app:layout_constraintTop_toBottomOf="@id/editDescriptionInput" />
+
+                <EditText
+                    android:id="@+id/editAddInstrumentText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:text="Name" />
 
                 <com.cunoraz.tagview.TagView
                     android:layout_width="match_parent"

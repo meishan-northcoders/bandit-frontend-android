@@ -1,9 +1,14 @@
 package com.northcoders.banditandroid.ui.createprofile;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +19,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.cunoraz.tagview.Tag;
+import com.cunoraz.tagview.TagView;
 import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.databinding.ActivityCreateProfileBinding;
 import com.northcoders.banditandroid.model.Genre;
@@ -24,6 +31,8 @@ import com.northcoders.banditandroid.model.ProfileType;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
 
 public class CreateProfileActivity extends AppCompatActivity {
 
@@ -76,6 +85,47 @@ public class CreateProfileActivity extends AppCompatActivity {
         spinner.setAdapter(new ArrayAdapter<ProfileType>(this, android.R.layout.simple_spinner_item, ProfileType.values()));
 
         spinner.setOnItemSelectedListener(new ProfileTypeSpinnerListener(this));
+
+        EditText genreEditText = findViewById(R.id.editAddGenreText);
+
+        TagView genreTagView = findViewById(R.id.genreTagView);
+
+        genreEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if(event.getKeyCode() == KeyEvent.KEYCODE_ENTER){
+                    System.out.println("enter key pressed!!!");
+
+                    System.out.println("text when key pressed: " + v.getText());
+
+                    List<String> currentTags = new ArrayList<>();
+
+                    genreTagView.getTags().forEach(tag -> currentTags.add(tag.text));
+
+
+                    Random colour = new Random();
+
+                    Tag tag = new Tag(v.getText().toString());
+
+                    tag.layoutColor = -colour.nextInt(16777216);
+
+
+                    genreTagView.addTag(tag);
+                }
+                return false;
+            }
+        });
+
+        genreTagView.setOnTagClickListener(new TagView.OnTagClickListener() {
+            @Override
+            public void onTagClick(Tag tag, int position) {
+
+
+
+            }
+        });
+
         Log.i(TAG, mutableProfiles.toString());
     }
 }
