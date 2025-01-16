@@ -5,6 +5,7 @@ import androidx.databinding.Bindable;
 
 import com.northcoders.banditandroid.BR;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Profile extends BaseObservable {
@@ -123,6 +124,19 @@ public class Profile extends BaseObservable {
         this.notifyPropertyChanged(BR.genres);
     }
 
+    public void addGenre(String genre){
+
+        if(genres!= null){
+            genres.add(new Genre(genre)); //creates new genre
+        }
+        else{
+            genres = new HashSet<>();
+            genres.add(new Genre(genre));
+        }
+
+
+    }
+
     @Bindable
     public Set<Instrument> getInstruments() {
         return instruments;
@@ -131,6 +145,19 @@ public class Profile extends BaseObservable {
     public void setInstruments(Set<Instrument> instruments) {
         this.instruments = instruments;
         this.notifyPropertyChanged(BR.instruments);
+    }
+
+    public void addInstrument(String instrument){
+
+        if(instruments!=null){
+            instruments.add(new Instrument(instrument));
+        }
+        else{
+            instruments = new HashSet<>();
+            instruments.add(new Instrument(instrument));
+        }
+
+
     }
 
     @Override

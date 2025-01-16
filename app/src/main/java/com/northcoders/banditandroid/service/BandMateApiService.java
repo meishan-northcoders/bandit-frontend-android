@@ -15,16 +15,16 @@ import retrofit2.http.POST;
 import retrofit2.http.Header;
 
 public interface BandMateApiService {
-    @GET("greeting")
+    @GET("api/v1/greeting")
     public Call<ResponseBody>  getGreeting();
 
-    @GET("profiles")
+    @GET("api/v1/profiles")
     public Call<ArrayList<Profile>> getAllProfiles();
 
-    @GET("profiles/user")
+    @GET("api/v1/profiles/user")
     public Call<Profile> getUserProfile(); //gets current logged in user profile
 
-    @POST("profiles")
+    @POST("api/v1/profiles")
     public Call<Profile> postProfile(@Body Profile profile);
 
     @GET("api/p1/greeting")

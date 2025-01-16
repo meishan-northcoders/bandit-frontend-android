@@ -72,8 +72,10 @@
                     android:textColorHint="#000000">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editDescriptionText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@={userProfile.description}"
                         android:hint="talk about yourself here..." />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -120,6 +122,7 @@
                     android:text="Name" />
 
                 <com.cunoraz.tagview.TagView
+                    android:id="@+id/instrumentTagView"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     app:layout_constraintTop_toBottomOf="@id/instrumentTagTitle" />

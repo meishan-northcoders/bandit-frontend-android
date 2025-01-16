@@ -95,23 +95,24 @@ public class CreateProfileActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
                 if(event.getKeyCode() == KeyEvent.KEYCODE_ENTER){
-                    System.out.println("enter key pressed!!!");
 
-                    System.out.println("text when key pressed: " + v.getText());
+                    String text = v.getText().toString().trim();
 
                     List<String> currentTags = new ArrayList<>();
 
                     genreTagView.getTags().forEach(tag -> currentTags.add(tag.text));
 
+                    if(!currentTags.contains(text)){
+                        Random colour = new Random();
 
-                    Random colour = new Random();
+                        Tag tag = new Tag(v.getText().toString());
 
-                    Tag tag = new Tag(v.getText().toString());
+                        tag.layoutColor = -colour.nextInt(16777216);
 
-                    tag.layoutColor = -colour.nextInt(16777216);
+                        genreTagView.addTag(tag);
 
-
-                    genreTagView.addTag(tag);
+                        userProfile.addGenre(tag.text);
+                    }
                 }
                 return false;
             }
@@ -120,12 +121,50 @@ public class CreateProfileActivity extends AppCompatActivity {
         genreTagView.setOnTagClickListener(new TagView.OnTagClickListener() {
             @Override
             public void onTagClick(Tag tag, int position) {
+                //delete tage
+                genreTagView.remove(position);
+            }
+        });
 
+        TagView instrumentTagView = findViewById(R.id.instrumentTagView);
 
+        EditText instrumentEditText = findViewById(R.id.editAddInstrumentText);
+
+        instrumentEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(event.getKeyCode() == KeyEvent.KEYCODE_ENTER){
+
+                    String text = v.getText().toString().trim();
+
+                    List<String> currentTags = new ArrayList<>();
+
+                    instrumentTagView.getTags().forEach(tag -> currentTags.add(tag.text));
+
+                    if(!currentTags.contains(text)){
+                        Random colour = new Random();
+
+                        Tag tag = new Tag(v.getText().toString());
+
+                        tag.layoutColor = -colour.nextInt(16777216);
+
+                        instrumentTagView.addTag(tag);
+
+                        userProfile.addInstrument(text);
+                    }
+                }
+                return false;
 
             }
         });
 
-        Log.i(TAG, mutableProfiles.toString());
+        instrumentTagView.setOnTagClickListener(new TagView.OnTagClickListener() {
+            @Override
+            public void onTagClick(Tag tag, int position) {
+                instrumentTagView.remove(position);
+            }
+        });
+
+
     }
 }

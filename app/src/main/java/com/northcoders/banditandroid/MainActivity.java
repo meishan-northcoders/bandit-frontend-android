@@ -6,7 +6,6 @@ import android.os.CancellationSignal;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-import android.window.SplashScreen;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             // Initialize sign in intent
             FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
-                setProfile(currentUser);
+                createProfile(currentUser);
             } else {
                 authenticateWithGoogle();
             }
@@ -144,10 +143,10 @@ public class MainActivity extends AppCompatActivity {
                     if (Objects.requireNonNull(task.getResult().getAdditionalUserInfo()).isNewUser()) {
                         //New user registration
                         Log.i(TAG, "new user registration flow");  // CREATE NEW PROFILE IN BACKEND
-                        setProfile(user);
+                        createProfile(user);
                     } else {
                         Log.i(TAG, "existing user flow"); // RETRIEVE PROFILE AND DISPLAY
-                        setProfile(user);
+                        createProfile(user);
                     }
                 } else {
                     Log.e(TAG, "Firebase login failed", task.getException());
@@ -156,14 +155,21 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setProfile(FirebaseUser user) {
+    private void createProfile(FirebaseUser user) {
         user.getIdToken(true).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Log.i(TAG, "Token retrieved successfully");
                 // Handle UI updates for the signed-in user.
-                Intent profileIntent = new Intent(MainActivity.this, ActivityProfile.class);
-                profileIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(profileIntent);
+
+
+                //TODO check if user has signed in before here.
+                Intent createProfile = new Intent(this, CreateProfileActivity.class);
+                createProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                this.startActivity(createProfile);
+
+                //Intent profileIntent = new Intent(MainActivity.this, ActivityProfile.class);
+                //profileIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                //startActivity(profileIntent);
                 SharedPreferenceHelper.getInstance(getApplicationContext()).putString("token", task.getResult().getToken());
             } else {
                 Log.e(TAG, "Token retrieval failed", task.getException());
@@ -171,12 +177,6 @@ public class MainActivity extends AppCompatActivity {
             //TODO move this to on created profile activity
             connectToBackend();
         });
-
-
-        Intent intent = new Intent(this, CreateProfileActivity.class);
-
-        this.startActivity(intent);
-
     }
 
 }
