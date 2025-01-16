@@ -27,17 +27,20 @@ import java.util.HashSet;
 
 public class CreateProfileActivity extends AppCompatActivity {
 
+
+
+/*
+* TODO
+*  image:
+*  figure out https://medium.com/@mr.yuvraj99/android-take-photo-from-camera-or-pick-image-from-gallery-c2601e364790 how to take photo
+*  from cam or pick image from gallery
+*  genres/instruments:
+*  figure out how to use https://github.com/Cutta/TagView */
     ActivityCreateProfileBinding binding;
-
     CreateProfileViewModel viewModel;
-
     CreateProfileClickHandler clickHandler;
-
     ProfileRepository profileRepository;
-
-    //Static to make it easier to access from the Spinner Listener - could refactor to make the spinner listener a subclass of this
     Profile userProfile = new Profile();
-
     public static final String TAG = "CreateProfileActivity";
 
     @Override
@@ -74,6 +77,5 @@ public class CreateProfileActivity extends AppCompatActivity {
 
         spinner.setOnItemSelectedListener(new ProfileTypeSpinnerListener(this));
         Log.i(TAG, mutableProfiles.toString());
-
     }
 }

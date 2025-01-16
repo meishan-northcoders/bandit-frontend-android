@@ -22,37 +22,94 @@
         android:layout_height="match_parent"
         tools:context=".ui.createprofile.CreateProfileActivity">
 
-        <LinearLayout
-            android:id="@+id/createProfileLayout"
+        <TextView
+            android:id="@+id/createProfileTitle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:fontFamily="@font/delius_swash_caps"
+            android:text="Create your profile"
+            android:textSize="42sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Spinner
-                android:id="@+id/editProfileTypeSpinner"
+            <LinearLayout
+                android:id="@+id/createProfileLayout"
                 android:layout_width="match_parent"
-                android:spinnerMode="dropdown"
-                android:layout_height="wrap_content" />
-
-            <EditText
-                android:id="@+id/editDescriptionText"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="sans-serif-medium"
-                android:hint="@string/describe_yourself_here"
-                android:inputType="text"
-                android:text="@={userProfile.description}" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="86dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/descriptionTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/delius_swash_caps"
+                    android:text="Who are you?"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@id/editDescriptionInput" />
+
+                <Spinner
+                    android:id="@+id/editProfileTypeSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:spinnerMode="dropdown" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editDescriptionInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="#000000">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="talk about yourself here..." />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/genreTagTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/delius_swash_caps"
+                    android:text="Tag your faourite genres:"
+                    android:textSize="24sp"
+                    app:layout_constraintTop_toBottomOf="@id/editDescriptionInput" />
+
+                <com.cunoraz.tagview.TagView
+                    android:layout_width="match_parent"
+                    android:layout_height="202dp"
+                    android:backgroundTint="#FFFFFF"
+                    app:layout_constraintTop_toBottomOf="@id/genreTagTitle" />
+
+
+                <TextView
+                    android:id="@+id/instrumentTagTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/delius_swash_caps"
+                    android:text="What instruments can you play?"
+                    android:textSize="24sp"
+                    app:layout_constraintTop_toBottomOf="@id/editDescriptionInput" />
+
+                <com.cunoraz.tagview.TagView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:layout_constraintTop_toBottomOf="@id/instrumentTagTitle" />
+
+
+            </LinearLayout>
+        </ScrollView>
 
         <Button
             android:id="@+id/submitProfileBtn"
@@ -60,8 +117,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="15dp"
-            android:text="Submit"
+            android:fontFamily="@font/delius_swash_caps"
             android:onClick="@{clickHandler::submitBtnClick}"
+            android:text="Create profile"
+            android:textColorLink="@color/colorAccent"
+            app:iconTint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
