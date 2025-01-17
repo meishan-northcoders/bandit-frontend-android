@@ -1,129 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    >
+
+    <data>
+        <variable
+            name="messageRequestDTO"
+            type="com.northcoders.banditandroid.model.MessageRequestDTO" />
+        <variable
+            name="clickHandler"
+            type="com.northcoders.banditandroid.ui.messsage.MessageClickHandler" />
+        <variable
+            name="correspondentProfile"
+            type="com.northcoders.banditandroid.model.ProfileAccurate" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_group_chat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/button_gchat_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8sp"
-            android:layout_marginEnd="8sp"
-            android:layout_marginTop="8sp"
-            android:layout_marginBottom="8sp"
-            app:fabCustomSize="48sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:backgroundTint="@color/neutralGray"
-            app:tint="@color/black"
-            android:src="@android:drawable/ic_menu_revert"/>
-        <!-- Update when click handler implemented -->
-        <!-- android:onClick="@{clickHandler::onBackBtClicked" -->
-
-        <ImageView
-            android:id="@+id/correspondent_image"
-            android:layout_width="48sp"
-            android:layout_height="48sp"
-            android:layout_marginStart="8sp"
-            android:layout_marginEnd="8sp"
-            android:layout_marginTop="8sp"
-            android:layout_marginBottom="8sp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/button_gchat_back"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
-
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8sp"
-            android:layout_marginEnd="8sp"
-            android:layout_marginTop="8sp"
-            android:layout_marginBottom="8sp"
-            android:hint="Placeholder correspondent username"
-            android:fontFamily="@font/delius_swash_caps"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/correspondent_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <View
-            android:id="@+id/border_top"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_group_chat"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#e0e0e0"
-            app:layout_constraintTop_toBottomOf="@+id/user_name" />
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/button_gchat_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8sp"
+                android:layout_marginEnd="8sp"
+                android:layout_marginTop="8sp"
+                android:layout_marginBottom="8sp"
+                app:fabCustomSize="48sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:backgroundTint="@color/neutralGray"
+                app:tint="@color/black"
+                android:src="@android:drawable/ic_menu_revert"
+                android:onClick="@{clickHandler::onBackButtonClicked}"/>
+
+            <ImageView
+                android:id="@+id/correspondent_image"
+                android:layout_width="48sp"
+                android:layout_height="48sp"
+                android:layout_marginStart="8sp"
+                android:layout_marginEnd="8sp"
+                android:layout_marginTop="8sp"
+                android:layout_marginBottom="8sp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_background"
+                app:loadImage="@{correspondentProfile.img_url}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/button_gchat_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/correspondent_username"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8sp"
+                android:layout_marginEnd="8sp"
+                android:layout_marginTop="8sp"
+                android:layout_marginBottom="8sp"
+                android:hint="Placeholder"
+                android:text="@{correspondentProfile.username}"
+                android:fontFamily="@font/delius_swash_caps"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/correspondent_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <View
+                android:id="@+id/border_top"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#e0e0e0"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_gchat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8sp"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toTopOf="@+id/layout_gchat_chatbox"
+            app:layout_constraintTop_toBottomOf="@+id/layout_group_chat" />
+
+        <RelativeLayout
+            android:id="@+id/layout_gchat_chatbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <View
+                android:id="@+id/border_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#e0e0e0"
+                app:layout_constraintBottom_toTopOf="parent" />
+
+            <EditText
+                android:layout_marginStart="8dp"
+                android:id="@+id/edit_gchat_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/button_gchat_send"
+                android:background="@android:color/transparent"
+                android:hint="@string/enter_message_hint"
+                android:inputType="textMultiLine"
+                android:maxLines="6"
+                tools:ignore="Autofill"
+                android:text="@={messageRequestDTO.messageBody}"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/button_gchat_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10sp"
+                android:layout_marginEnd="10sp"
+                android:layout_marginTop="10sp"
+                android:layout_marginBottom="10sp"
+                app:fabCustomSize="48sp"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="@color/neutralGray"
+                app:tint="@color/black"
+                android:src="@android:drawable/ic_menu_send"
+                android:onClick="@{clickHandler::onSendButtonClicked}"/>
+
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_gchat"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="8sp"
-        app:layout_constrainedHeight="true"
-        app:layout_constraintBottom_toTopOf="@+id/layout_gchat_chatbox"
-        app:layout_constraintTop_toBottomOf="@+id/layout_group_chat" />
-
-    <RelativeLayout
-        android:id="@+id/layout_gchat_chatbox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#e0e0e0"
-            app:layout_constraintBottom_toTopOf="parent" />
-
-        <EditText
-            android:layout_marginStart="16dp"
-            android:id="@+id/edit_gchat_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/button_gchat_send"
-            android:background="@android:color/transparent"
-            android:hint="@string/enter_message_hint"
-            android:inputType="textMultiLine"
-            android:maxLines="6"
-            tools:ignore="Autofill" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/button_gchat_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10sp"
-            android:layout_marginEnd="10sp"
-            android:layout_marginTop="10sp"
-            android:layout_marginBottom="10sp"
-            app:fabCustomSize="48sp"
-            android:layout_alignParentEnd="true"
-            android:backgroundTint="@color/neutralGray"
-            app:tint="@color/black"
-            android:src="@android:drawable/ic_menu_send"/>
-        <!-- Update when click handler implemented -->
-        <!-- android:onClick="@{clickHandler::onSendBtClicked" -->
-    </RelativeLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
