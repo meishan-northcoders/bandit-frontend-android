@@ -57,16 +57,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
             );
             return new UserMessageViewHolder(binding);
 
-        } else if (viewType == VIEW_TYPE_CORRESPONDENT_MESSAGE) {
-            MessageItemCorrespondentBinding binding = DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.getContext()),
-                    R.layout.message_item_correspondent,
-                    parent,
-                    false
-            );
-            return new CorrespondentMessageViewHolder(binding);
         } else {
-            //Use the correspondent message ViewHolder as default
             MessageItemCorrespondentBinding binding = DataBindingUtil.inflate(
                     LayoutInflater.from(parent.getContext()),
                     R.layout.message_item_correspondent,
@@ -118,10 +109,8 @@ public class MessageAdapter extends RecyclerView.Adapter {
         }
     }
 
+    //to be updated with real profile class when profile journey is merged, and to extract correspondent profile from parcel passed to MessageActivity when Favourites Activity is merged
     private ProfileAccurate getUserProfile() {
         return new ProfileAccurate("activeUserId1", "testUsername1", "testURL", ProfileType.BAND, "testDescription", 100, 200, 10, null, null);
-    }
-    private ProfileAccurate getCorrespondentProfile() {
-        return new ProfileAccurate("testCorrespondentId2", "testUsername1", "testURL", ProfileType.BAND, "testDescription", 100, 200, 10, null, null);
     }
 }
