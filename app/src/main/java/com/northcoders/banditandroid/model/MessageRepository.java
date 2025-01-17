@@ -32,8 +32,6 @@ public class MessageRepository {
         //get token from firebase synchronously
         String token = SharedPreferenceHelper.getInstance(application.getApplicationContext()).getString("token", null);
 
-        Call<ResponseBody> greeting = bandMateApiService.getGreeting("Bearer "+token);
-
         Call call = bandMateApiService.getMessagesBetweenUsers("Bearer "+token, correspondentRequestDTO);
 
         call.enqueue(new Callback<List<MessageResponseDTO>>() {
