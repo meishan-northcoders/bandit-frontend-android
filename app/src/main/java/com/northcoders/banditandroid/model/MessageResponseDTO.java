@@ -1,8 +1,11 @@
 package com.northcoders.banditandroid.model;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+
 import java.time.Instant;
 
-public class MessageResponseDTO {
+public class MessageResponseDTO extends BaseObservable {
     private String senderId;
     private String receiverId;
     private String messageBody;
@@ -17,7 +20,7 @@ public class MessageResponseDTO {
         this.messageBody = messageBody;
         this.createdAt = createdAt;
     }
-
+    @Bindable
     public String getSenderId() {
         return senderId;
     }
@@ -25,7 +28,7 @@ public class MessageResponseDTO {
     public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
-
+    @Bindable
     public String getReceiverId() {
         return receiverId;
     }
@@ -34,6 +37,7 @@ public class MessageResponseDTO {
         this.receiverId = receiverId;
     }
 
+    @Bindable
     public String getMessageBody() {
         return messageBody;
     }
@@ -42,6 +46,7 @@ public class MessageResponseDTO {
         this.messageBody = messageBody;
     }
 
+    @Bindable
     public String getCreatedAt() {
         return createdAt;
     }
