@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.northcoders.banditandroid.model.CorrespondentRequestDTO;
 import com.northcoders.banditandroid.model.MessageRepository;
+import com.northcoders.banditandroid.model.MessageRequestDTO;
 import com.northcoders.banditandroid.model.MessageResponseDTO;
 
 import java.util.List;
@@ -23,5 +24,9 @@ public class MessageActivityViewModel extends AndroidViewModel {
 
     public LiveData<List<MessageResponseDTO>> getAllMessages(CorrespondentRequestDTO correspondentRequestDTO) {
         return messageRepository.getMutableLiveData(correspondentRequestDTO);
+    }
+
+    public void saveMessage(MessageRequestDTO messageRequestDTO) {
+        messageRepository.saveMessage(messageRequestDTO);
     }
 }
