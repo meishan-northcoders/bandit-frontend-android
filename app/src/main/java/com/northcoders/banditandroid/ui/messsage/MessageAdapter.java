@@ -35,6 +35,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         MessageResponseDTO message = (MessageResponseDTO) messages.get(position);
 
+        //if getUserProfile doesn't work in a context which isn't MessageActivity then the MessageAdapter can be updated to take a String (activeUserId) or a Profile (activeUserProfile) as a parameter instead
         if (message.getSenderId().equals(getUserProfile().getProfile_id())) {
             // If the current user is the sender of the message
             return VIEW_TYPE_USER_MESSAGE;
