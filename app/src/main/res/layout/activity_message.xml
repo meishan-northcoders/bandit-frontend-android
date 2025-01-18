@@ -12,9 +12,9 @@
         <variable
             name="clickHandler"
             type="com.northcoders.banditandroid.ui.messsage.MessageClickHandler" />
-    <variable
-        name="correspondentProfile"
-        type="com.northcoders.banditandroid.model.ProfileAccurate" />
+        <variable
+            name="correspondentProfile"
+            type="com.northcoders.banditandroid.model.ProfileAccurate" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,6 +56,7 @@
                 android:layout_marginBottom="8sp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher_background"
+                app:loadImage="@{correspondentProfile.img_url}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/button_gchat_back"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -69,7 +70,8 @@
                 android:layout_marginEnd="8sp"
                 android:layout_marginTop="8sp"
                 android:layout_marginBottom="8sp"
-                android:hint="Placeholder correspondent username"
+                android:hint="Placeholder"
+                android:text="@{correspondentProfile.username}"
                 android:fontFamily="@font/delius_swash_caps"
                 android:textColor="@color/black"
                 android:textSize="24sp"
@@ -84,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#e0e0e0"
-                app:layout_constraintTop_toBottomOf="@+id/correspondent_username" />
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
