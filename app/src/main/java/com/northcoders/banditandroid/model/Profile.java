@@ -18,6 +18,12 @@ public class Profile extends BaseObservable {
 
     private String description;
 
+    private String city;
+
+    private String country;
+
+    private String searchQuery; //analysed by openAi in backend
+
     private float lat;
 
     private float lon;
@@ -32,17 +38,21 @@ public class Profile extends BaseObservable {
     public Profile() {
     }
 
-    public Profile(String profile_id, String img_url, ProfileType profile_type, String description, float lat, float lon, float max_distance, Set<Genre> genres, Set<Instrument> instruments) {
+    public Profile(String profile_id, String img_url, ProfileType profile_type, String description, String city, String country, String searchQuery, float lat, float lon, float max_distance, Set<Genre> genres, Set<Instrument> instruments) {
         this.profile_id = profile_id;
         this.img_url = img_url;
         this.profile_type = profile_type;
         this.description = description;
+        this.city = city;
+        this.country = country;
+        this.searchQuery = searchQuery;
         this.lat = lat;
         this.lon = lon;
         this.max_distance = max_distance;
         this.genres = genres;
         this.instruments = instruments;
     }
+
 
     @Bindable
     public String getProfile_id() {
@@ -160,6 +170,42 @@ public class Profile extends BaseObservable {
 
     }
 
+    @Bindable
+    public String getSearchQuery() {
+        return searchQuery;
+    }
+
+    public void setSearchQuery(String searchQuery) {
+        this.searchQuery = searchQuery;
+        this.notifyPropertyChanged(BR.searchQuery);
+    }
+
+
+    public boolean checkAttributesNotNull(){
+        boolean result = true;
+
+        if(profile_type == null){
+            result = false;
+        }
+        if(description == null || description.isEmpty()){
+            result = false;
+        }
+        if(genres == null || genres.isEmpty()){
+            result = false;
+        }
+        if(instruments == null || instruments.isEmpty()){
+            result = false;
+        }
+        if(city == null){
+            result = false;
+        }
+        if(country == null){
+            result = false;
+        }
+        return result;
+
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
@@ -173,5 +219,25 @@ public class Profile extends BaseObservable {
                 ", genres=" + genres +
                 ", instruments=" + instruments +
                 '}';
+    }
+
+    @Bindable
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+        this.notifyPropertyChanged(BR.city);
+    }
+
+    @Bindable
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+        this.notifyPropertyChanged(BR.country);
     }
 }

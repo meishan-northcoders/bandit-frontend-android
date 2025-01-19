@@ -16,6 +16,8 @@ import androidx.credentials.CredentialManagerCallback;
 import androidx.credentials.GetCredentialRequest;
 import androidx.credentials.GetCredentialResponse;
 import androidx.credentials.exceptions.GetCredentialException;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,13 +30,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.northcoders.banditandroid.helper.SharedPreferenceHelper;
+import com.northcoders.banditandroid.model.Profile;
+import com.northcoders.banditandroid.model.ProfileRepository;
 import com.northcoders.banditandroid.service.BandMateApiService;
 import com.northcoders.banditandroid.service.RetrofitInstance;
+import com.northcoders.banditandroid.ui.ProfileAdapter;
 import com.northcoders.banditandroid.ui.createprofile.CreateProfileActivity;
 import com.northcoders.banditandroid.ui.matchprofile.MatchingProfilesActivity;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -163,21 +171,33 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "Token retrieved successfully");
                 // Handle UI updates for the signed-in user.
 
-
-                //TODO check if user has signed in before here.
-                Intent createProfile = new Intent(this, CreateProfileActivity.class);
-                createProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                this.startActivity(createProfile);
-
-                //Intent profileIntent = new Intent(MainActivity.this, ActivityProfile.class);
-                //profileIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                //startActivity(profileIntent);
+                //TODO move this to on created profile activity
+                connectToBackend();
                 SharedPreferenceHelper.getInstance(getApplicationContext()).putString("token", task.getResult().getToken());
+
+                //TODO callback operation to prevent null check from executing before object is returned.
+                ProfileRepository profileRepository = new ProfileRepository(this.getApplication());
+                MutableLiveData<Profile> mutable = profileRepository.getUserProfile();
+                Profile profile = mutable.getValue();
+
+                //This is part of maps api test.
+//                Intent testMapIntent = new Intent(this, TestMapActivity.class);
+//                this.startActivity(testMapIntent);
+
+                if(profile == null){
+                    System.out.println("profile null, create new profile screen starting");
+                    Intent createProfile = new Intent(this, CreateProfileActivity.class);
+                    createProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    this.startActivity(createProfile);
+                }
+                else{
+                    System.out.println("profile already exists");
+                }
+
             } else {
                 Log.e(TAG, "Token retrieval failed", task.getException());
             }
-            //TODO move this to on created profile activity
-            connectToBackend();
+
         });
     }
 

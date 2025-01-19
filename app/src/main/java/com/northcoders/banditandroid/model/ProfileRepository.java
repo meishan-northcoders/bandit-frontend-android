@@ -5,6 +5,11 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GetTokenResult;
+import com.northcoders.banditandroid.helper.SharedPreferenceHelper;
 import com.northcoders.banditandroid.service.BandMateApiService;
 import com.northcoders.banditandroid.service.RetrofitInstance;
 
@@ -24,6 +29,8 @@ public class ProfileRepository {
     private MutableLiveData<ArrayList<Profile>> mutableAllProfiles = new MutableLiveData<>();
     private MutableLiveData<List<Profile>> mutableFilteredProfiles = new MutableLiveData<>();
 
+
+    private MutableLiveData<Profile> mutableUserProfile = new MutableLiveData<>();
 
 
     public ProfileRepository(Application application) {
@@ -56,13 +63,21 @@ public class ProfileRepository {
         return mutableAllProfiles;
     }
 
-    public void getUserProfile(){
-        Call<Profile> call = apiService.getUserProfile();
+    public MutableLiveData<Profile> getUserProfile(){
+
+        String token = SharedPreferenceHelper.getInstance(application.getApplicationContext()).getString("token", null);
+
+
+        Call<Profile> call = apiService.getUserProfile(token);
 
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
                 System.out.println("successfully retrieved user's profile");
+
+                Profile userProfile = response.body();
+
+                mutableUserProfile.setValue(userProfile);
             }
 
             @Override
@@ -71,11 +86,16 @@ public class ProfileRepository {
             }
         });
 
+        return mutableUserProfile;
+
 
     }
 
     public void createUserProfile(Profile profile){
-        Call<Profile> call = apiService.postProfile(profile);
+
+        String token = SharedPreferenceHelper.getInstance(application.getApplicationContext()).getString("token", null);
+
+        Call<Profile> call = apiService.postProfile(token, profile);
 
         call.enqueue(new Callback<Profile>() {
             @Override
@@ -89,6 +109,7 @@ public class ProfileRepository {
 
             }
         });
+
     }
 
     public MutableLiveData<List<Profile>> getFilteredProfiles(String authToken){
