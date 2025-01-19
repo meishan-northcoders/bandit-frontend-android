@@ -30,4 +30,7 @@ public interface BandMateApiService {
     @GET("api/p1/greeting")
     public Call<ResponseBody>  getGreeting(@Header("Authorization") String authToken);
 
+    @GET("api/v1/profiles/filtered")
+    public Call<List<Profile>> getFilteredProfiles(@Header("Authorization") String authToken);
+
 }

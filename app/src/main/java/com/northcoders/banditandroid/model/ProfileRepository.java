@@ -1,6 +1,7 @@
 package com.northcoders.banditandroid.model;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -8,6 +9,7 @@ import com.northcoders.banditandroid.service.BandMateApiService;
 import com.northcoders.banditandroid.service.RetrofitInstance;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,6 +22,8 @@ public class ProfileRepository {
     private Application application;
 
     private MutableLiveData<ArrayList<Profile>> mutableAllProfiles = new MutableLiveData<>();
+    private MutableLiveData<List<Profile>> mutableFilteredProfiles = new MutableLiveData<>();
+
 
 
     public ProfileRepository(Application application) {
@@ -85,5 +89,25 @@ public class ProfileRepository {
 
             }
         });
+    }
+
+    public MutableLiveData<List<Profile>> getFilteredProfiles(String authToken){
+        Call<List<Profile>> listOfProfiles = apiService.getFilteredProfiles(authToken);
+
+        listOfProfiles.enqueue(new Callback<List<Profile>>() {
+            @Override
+            public void onResponse(Call<List<Profile>> call, Response<List<Profile>> response) {
+                System.out.println("successfully retrieved filtered profiles");
+                List<Profile> body = response.body();
+                mutableFilteredProfiles.setValue(body);
+            }
+
+            @Override
+            public void onFailure(Call<List<Profile>> call, Throwable t) {
+                System.out.println("failed to retrieve filtered profiles");
+                Log.i("ProfileRepository", t.getMessage());
+            }
+        });
+        return mutableFilteredProfiles;
     }
 }
