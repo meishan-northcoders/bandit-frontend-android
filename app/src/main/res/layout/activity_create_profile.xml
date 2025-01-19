@@ -38,7 +38,9 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="16dp">
 
             <LinearLayout
                 android:id="@+id/createProfileLayout"
@@ -75,8 +77,8 @@
                         android:id="@+id/editDescriptionText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={userProfile.description}"
-                        android:hint="talk about yourself here..." />
+                        android:hint="talk about yourself here..."
+                        android:text="@={userProfile.description}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -101,7 +103,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="202dp"
                     android:backgroundTint="#FFFFFF"
-                    app:layout_constraintTop_toBottomOf="@id/genreTagTitle" />
+                    app:layout_constraintTop_toBottomOf="@id/genreTagTitle"
+                    tools:ignore="MissingClass" />
 
 
                 <TextView
@@ -125,25 +128,40 @@
                     android:id="@+id/instrumentTagView"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    app:layout_constraintTop_toBottomOf="@id/instrumentTagTitle" />
-
-
+                    app:layout_constraintTop_toBottomOf="@id/instrumentTagTitle"
+                    tools:ignore="MissingClass" />
             </LinearLayout>
         </ScrollView>
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/submitProfileBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="15dp"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:fontFamily="@font/delius_swash_caps"
             android:onClick="@{clickHandler::submitBtnClick}"
-            android:text="Create profile"
+            android:src="@android:drawable/ic_menu_save"
+            android:textColorLink="@color/colorAccent"
+            app:iconTint="@color/colorAccent"
+            app:layout_constraintBottom_toTopOf="@+id/bt_logout"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/bt_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="@color/neutralGray"
+            android:fontFamily="@font/delius_swash_caps"
+            android:src="@android:drawable/ic_lock_power_off"
+            android:onClick="@{clickHandler::onLogoutBtnClick}"
             android:textColorLink="@color/colorAccent"
             app:iconTint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

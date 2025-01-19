@@ -23,6 +23,7 @@ import com.cunoraz.tagview.Tag;
 import com.cunoraz.tagview.TagView;
 import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.databinding.ActivityCreateProfileBinding;
+import com.northcoders.banditandroid.helper.LogoutHandler;
 import com.northcoders.banditandroid.model.Genre;
 import com.northcoders.banditandroid.model.Instrument;
 import com.northcoders.banditandroid.model.Profile;
@@ -57,11 +58,12 @@ public class CreateProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_create_profile);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.createProfileView), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        findViewById(R.id.bt_logout).setOnClickListener(v -> {
+            Log.i(TAG, "onCreate: logout clicked");
+             LogoutHandler.getInstance().logout(this);
+             Log.d(TAG, "onCreate: logout clicked");
+         });
+
 
         viewModel = new ViewModelProvider(this).get(CreateProfileViewModel.class);
 

@@ -1,11 +1,14 @@
 package com.northcoders.banditandroid.ui.createprofile;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.northcoders.banditandroid.helper.LogoutHandler;
 import com.northcoders.banditandroid.model.Profile;
 
 public class CreateProfileClickHandler {
@@ -35,6 +38,10 @@ public class CreateProfileClickHandler {
 //        Intent intent = new Intent();
 //        context.startActivity(intent);
 
+    }
+
+    public void onLogoutBtnClick(View view){
+        LogoutHandler.getInstance().logout((CreateProfileActivity) context);
     }
 
 
