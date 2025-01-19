@@ -22,10 +22,10 @@ public interface BandMateApiService {
     public Call<ArrayList<Profile>> getAllProfiles();
 
     @GET("api/v1/profiles/user")
-    public Call<Profile> getUserProfile(); //gets current logged in user profile
+    public Call<Profile> getUserProfile(@Header("Authorization") String authToken); //gets current logged in user profile
 
     @POST("api/v1/profiles")
-    public Call<Profile> postProfile(@Body Profile profile);
+    public Call<Profile> postProfile(@Header("Authorization") String authToken, @Body Profile profile);
 
     @GET("api/p1/greeting")
     public Call<ResponseBody>  getGreeting(@Header("Authorization") String authToken);

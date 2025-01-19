@@ -5,8 +5,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -21,6 +27,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.cunoraz.tagview.Tag;
 import com.cunoraz.tagview.TagView;
+import com.google.android.gms.common.api.GoogleApi;
 import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.databinding.ActivityCreateProfileBinding;
 import com.northcoders.banditandroid.model.Genre;
@@ -32,7 +39,9 @@ import com.northcoders.banditandroid.model.ProfileType;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
 
 public class CreateProfileActivity extends AppCompatActivity {
 
@@ -52,10 +61,12 @@ public class CreateProfileActivity extends AppCompatActivity {
     Profile userProfile = new Profile();
     public static final String TAG = "CreateProfileActivity";
 
+    Button submitBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+        //EdgeToEdge.enable(this);
         setContentView(R.layout.activity_create_profile);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.createProfileView), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -70,8 +81,20 @@ public class CreateProfileActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this,
                 R.layout.activity_create_profile);
 
-        binding.setUserProfile(userProfile);
+        CheckBox bandCheck = findViewById(R.id.bandCheckBox);
+        CheckBox musicianCheck = findViewById(R.id.musicianCheckBox);
+        EditText genreEditText = findViewById(R.id.editAddGenreText);
+        EditText instrumentEditText = findViewById(R.id.editAddInstrumentText);
+        TagView genreTagView = findViewById(R.id.genreTagView);
+        TagView instrumentTagView = findViewById(R.id.instrumentTagView);
 
+        submitBtn = findViewById(R.id.submitProfileBtn);
+
+        ScrollView scrollView = findViewById(R.id.createProfileScrollView);
+
+        submitBtn.setEnabled(false);
+
+        binding.setUserProfile(userProfile);
         binding.setClickHandler(clickHandler);
 
         profileRepository = new ProfileRepository(this.getApplication());
@@ -80,20 +103,40 @@ public class CreateProfileActivity extends AppCompatActivity {
                 profileRepository.getMutableAllProfiles();
 
 
-        Spinner spinner = findViewById(R.id.editProfileTypeSpinner);
+        //CHECK BOXES:
+        bandCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                userProfile.setProfile_type(ProfileType.BAND);
+                musicianCheck.setChecked(false);
+            }
+            else{
+                userProfile.setProfile_type(ProfileType.MUSICIAN);
+                bandCheck.setChecked(false);
+                musicianCheck.setChecked(true);
+            }
+            updateSubmitBtn();
+        });
 
-        spinner.setAdapter(new ArrayAdapter<ProfileType>(this, android.R.layout.simple_spinner_item, ProfileType.values()));
+        musicianCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                userProfile.setProfile_type(ProfileType.MUSICIAN);
+                bandCheck.setChecked(false);
+            }
+            else{
+                userProfile.setProfile_type(ProfileType.BAND);
+                musicianCheck.setChecked(false);
+                bandCheck.setChecked(true);
 
-        spinner.setOnItemSelectedListener(new ProfileTypeSpinnerListener(this));
+            }
+            updateSubmitBtn();
 
-        EditText genreEditText = findViewById(R.id.editAddGenreText);
+        });
 
-        TagView genreTagView = findViewById(R.id.genreTagView);
 
-        genreEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        //TAGS:
+        genreEditText.setOnEditorActionListener((v, actionId, event) -> {
 
+            try{
                 if(event.getKeyCode() == KeyEvent.KEYCODE_ENTER){
 
                     String text = v.getText().toString().trim();
@@ -102,7 +145,7 @@ public class CreateProfileActivity extends AppCompatActivity {
 
                     genreTagView.getTags().forEach(tag -> currentTags.add(tag.text));
 
-                    if(!currentTags.contains(text)){
+                    if(!currentTags.contains(text) && !text.isEmpty()){
                         Random colour = new Random();
 
                         Tag tag = new Tag(v.getText().toString());
@@ -112,27 +155,36 @@ public class CreateProfileActivity extends AppCompatActivity {
                         genreTagView.addTag(tag);
 
                         userProfile.addGenre(tag.text);
+
+                        genreEditText.setText("");
                     }
                 }
-                return false;
+            } catch (Exception e) {
+                Log.i("EditText OnEditorActionListener exception: ", Objects.requireNonNull(e.getMessage()));
             }
+            updateSubmitBtn();
+            return false;
         });
 
-        genreTagView.setOnTagClickListener(new TagView.OnTagClickListener() {
-            @Override
-            public void onTagClick(Tag tag, int position) {
-                //delete tage
-                genreTagView.remove(position);
-            }
+        genreTagView.setOnTagClickListener((tag, position) ->{
+
+         genreTagView.remove(position);
+
+         Set<Genre> newGenres = new HashSet<>();
+         userProfile.getGenres().forEach(genre -> {
+             String genreName = genre.getGenre();
+             if(!Objects.equals(genreName, tag.text)){
+                 newGenres.add(genre);
+             }
+         });
+         userProfile.setGenres(newGenres);
+         updateSubmitBtn();
         });
 
-        TagView instrumentTagView = findViewById(R.id.instrumentTagView);
 
-        EditText instrumentEditText = findViewById(R.id.editAddInstrumentText);
+        instrumentEditText.setOnEditorActionListener((v, actionId, event) -> {
 
-        instrumentEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            try{
                 if(event.getKeyCode() == KeyEvent.KEYCODE_ENTER){
 
                     String text = v.getText().toString().trim();
@@ -141,7 +193,7 @@ public class CreateProfileActivity extends AppCompatActivity {
 
                     instrumentTagView.getTags().forEach(tag -> currentTags.add(tag.text));
 
-                    if(!currentTags.contains(text)){
+                    if(!currentTags.contains(text) && !text.isEmpty()){
                         Random colour = new Random();
 
                         Tag tag = new Tag(v.getText().toString());
@@ -151,20 +203,44 @@ public class CreateProfileActivity extends AppCompatActivity {
                         instrumentTagView.addTag(tag);
 
                         userProfile.addInstrument(text);
+
+                        instrumentEditText.setText("");
                     }
                 }
-                return false;
-
+            } catch (Exception e) {
+                Log.i("EditText OnEditorActionListener exception: ", Objects.requireNonNull(e.getMessage()));
             }
+            updateSubmitBtn();
+            return false;
+
         });
 
-        instrumentTagView.setOnTagClickListener(new TagView.OnTagClickListener() {
+        instrumentTagView.setOnTagClickListener((tag, position) -> {
+            instrumentTagView.remove(position);
+
+            Set<Instrument> newInstruments = new HashSet<>();
+            userProfile.getInstruments().forEach(instrument -> {
+                String genreName = instrument.getInstrument();
+                if(!Objects.equals(genreName, tag.text)){
+                    newInstruments.add(instrument);
+                }
+            });
+            userProfile.setInstruments(newInstruments);
+            updateSubmitBtn();
+        });
+
+        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
-            public void onTagClick(Tag tag, int position) {
-                instrumentTagView.remove(position);
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                System.out.println("scrollview scrolled!");
+                updateSubmitBtn();
             }
         });
 
+    }
 
+    private void updateSubmitBtn(){
+        submitBtn.setEnabled(userProfile.checkAttributesNotNull());
     }
 }
