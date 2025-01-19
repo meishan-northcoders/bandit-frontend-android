@@ -10,73 +10,34 @@
         <variable
             name="clickHandler"
             type="com.northcoders.banditandroid.ui.matchprofile.MatchProfileClickHandler" />
-
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.matchprofile.MatchingProfilesActivity">
 
-    <!-- Card Stack View -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/matches_recyclerView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/buttons_layout"
- />
-    <!-- Action Buttons -->
-    <LinearLayout
-        android:id="@+id/buttons_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
 
-        <ImageButton
-            android:id="@+id/btn_profile"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginHorizontal="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/cog"
-            android:contentDescription="Profile" />
+        tools:context=".ui.matchprofile.MatchingProfilesActivity">
 
-        <ImageButton
-            android:id="@+id/btn_like"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginHorizontal="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/btn_star_big_on"
-            android:contentDescription="Like" />
+        <!-- Card Stack View -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/matches_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/navigation_buttons_fragment" />
 
-        <ImageButton
-            android:id="@+id/btn_favorite"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginHorizontal="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/favcontacts"
-            android:contentDescription="Favorite" />
+        <!-- Navigation Buttons Fragment -->
+        <fragment
+            android:id="@+id/navigation_buttons_fragment"
+            android:name="com.northcoders.banditandroid.ui.navigation.NavigationButtonsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <ImageButton
-            android:id="@+id/bt_logout"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginHorizontal="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_lock_power_off"
-            android:contentDescription="Favorite" />
-
-
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

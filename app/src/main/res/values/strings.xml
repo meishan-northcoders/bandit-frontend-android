@@ -7,4 +7,6 @@
     <string name="describe_yourself_here">Describe yourself here...</string>
     <string name="web_client_id">259890167411-i7sb2bfq6uov0imbqei9gkssj25r136o.apps.googleusercontent.com</string>
     <string name="user_email">user email</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -28,6 +28,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.cunoraz.tagview.Tag;
 import com.cunoraz.tagview.TagView;
 import com.google.android.gms.common.api.GoogleApi;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.databinding.ActivityCreateProfileBinding;
 import com.northcoders.banditandroid.helper.LogoutHandler;
@@ -69,6 +71,9 @@ public class CreateProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //EdgeToEdge.enable(this);
         setContentView(R.layout.activity_create_profile);
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        Log.i(TAG, "onCreate: current user: " + currentUser);
+
         findViewById(R.id.bt_logout).setOnClickListener(v -> {
             Log.i(TAG, "onCreate: logout clicked");
              LogoutHandler.getInstance().logout(this);
