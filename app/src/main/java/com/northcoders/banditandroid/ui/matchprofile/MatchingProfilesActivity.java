@@ -41,21 +41,28 @@ public class MatchingProfilesActivity extends AppCompatActivity {
         genres.add(new Genre("Rock"));
         HashSet<Instrument> instruments = new HashSet<>();
         instruments.add(new Instrument("Guitar"));
-        //(String profile_id, String img_url, ProfileType profile_type,
-                //String description, float lat, float lon, float max_distance, Set<Genre> genres, Set<Instrument> instruments
+        //String profile_id, String img_url, ProfileType profile_type, String description
+        // , String city, String country, String searchQuery, float lat,
+        // float lon, float max_distance, Set<Genre> genres, Set<Instrument> instruments
         profileList.add(new Profile("344",
                 "https://lh3.googleusercontent.com/a/ACg8ocKF4RuOneJ-H-LD3N4Y63PKapk1ReOf92qbz1Cbb9lglmI06g=s96-c",
                 ProfileType.MUSICIAN, // <- Add this comma
                 "Energetic and passionate guitarist looking to perform in high metal genre band",
+                "Manchester",
+                "UK",
+                "I am Looking for an energetic and passionate guitarist to join my band",
                 53.4f,
                 -2.2f,
                 50.0f,
                 genres,
                 instruments));
-        profileList.add(new Profile("354",
+        profileList.add(new Profile("3456",
                 "https://lh3.googleusercontent.com/a/ACg8ocKF4RuOneJ-H-LD3N4Y63PKapk1ReOf92qbz1Cbb9lglmI06g=s96-c",
-                ProfileType.MUSICIAN, // <- Add this comma
-                "Dynamic and passionate Piano artist looking to perform in high metal genre band",
+                ProfileType.BAND, // <- Add this comma
+                "I Love to play Rock Music and high metal, Interested in joining a band that is looking for a guitarist",
+                "London",
+                "UK",
+                "I Am here to join a band that is looking for a guitarist",
                 53.4f,
                 -2.2f,
                 50.0f,
