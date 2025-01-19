@@ -31,6 +31,7 @@ import com.northcoders.banditandroid.helper.SharedPreferenceHelper;
 import com.northcoders.banditandroid.service.BandMateApiService;
 import com.northcoders.banditandroid.service.RetrofitInstance;
 import com.northcoders.banditandroid.ui.createprofile.CreateProfileActivity;
+import com.northcoders.banditandroid.ui.matchprofile.MatchingProfilesActivity;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -146,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                         createProfile(user);
                     } else {
                         Log.i(TAG, "existing user flow"); // RETRIEVE PROFILE AND DISPLAY
-                        createProfile(user);
+                        moveToMatchesPage(user);
                     }
                 } else {
                     Log.e(TAG, "Firebase login failed", task.getException());
@@ -176,6 +177,29 @@ public class MainActivity extends AppCompatActivity {
             }
             //TODO move this to on created profile activity
             connectToBackend();
+        });
+    }
+
+    private void moveToMatchesPage(FirebaseUser user) {
+        user.getIdToken(true).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.i(TAG, "Token retrieved successfully");
+                // Handle UI updates for the signed-in user.
+
+
+                //TODO check if user has signed in before here.
+                Intent matchProfile = new Intent(this, MatchingProfilesActivity.class);
+                matchProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                this.startActivity(matchProfile);
+
+                //Intent profileIntent = new Intent(MainActivity.this, ActivityProfile.class);
+                //profileIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                //startActivity(profileIntent);
+                SharedPreferenceHelper.getInstance(getApplicationContext()).putString("token", task.getResult().getToken());
+            } else {
+                Log.e(TAG, "Token retrieval failed", task.getException());
+            }
+            //TODO move this to on created profile activity
         });
     }
 
