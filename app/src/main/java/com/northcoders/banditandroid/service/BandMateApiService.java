@@ -1,5 +1,6 @@
 package com.northcoders.banditandroid.service;
 
+import com.northcoders.banditandroid.model.Favourite;
 import com.northcoders.banditandroid.model.Profile;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface BandMateApiService {
 
     @GET("profile")
     public Call<Profile> getProfile();
+
+    @GET("api/v1/favourites")
+    public Call<List<Favourite>> getUserFavourites();
 }
