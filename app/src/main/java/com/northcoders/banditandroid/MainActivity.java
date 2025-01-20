@@ -16,6 +16,7 @@ import androidx.credentials.CredentialManagerCallback;
 import androidx.credentials.GetCredentialRequest;
 import androidx.credentials.GetCredentialResponse;
 import androidx.credentials.exceptions.GetCredentialException;
+import androidx.lifecycle.Observer;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,9 +28,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.gson.Gson;
 import com.northcoders.banditandroid.helper.SharedPreferenceHelper;
+import com.northcoders.banditandroid.model.Profile;
+import com.northcoders.banditandroid.model.ProfileRepository;
 import com.northcoders.banditandroid.service.BandMateApiService;
 import com.northcoders.banditandroid.service.RetrofitInstance;
+import com.northcoders.banditandroid.ui.createprofile.CreateProfileActivity;
+import com.northcoders.banditandroid.ui.updateprofile.UpdateProfileActivity;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -57,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             // Initialize sign in intent
             FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
-                setProfile(currentUser);
+                changeActivity(currentUser);
             } else {
                 authenticateWithGoogle();
             }
@@ -79,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } catch (IOException e) {
                     Log.e(TAG, "Error reading response body", e);
+                } catch (NullPointerException e) {
+                    Log.e(TAG, "Response body is null ", e);
                 }
             }
 
@@ -140,10 +148,11 @@ public class MainActivity extends AppCompatActivity {
                     if (Objects.requireNonNull(task.getResult().getAdditionalUserInfo()).isNewUser()) {
                         //New user registration
                         Log.i(TAG, "new user registration flow");  // CREATE NEW PROFILE IN BACKEND
-                        setProfile(user);
+                        changeActivity(user);
                     } else {
-                        Log.i(TAG, "existing user flow"); // RETRIEVE PROFILE AND DISPLAY
-                        setProfile(user);
+                        Log.i(TAG, "existing user flow, firebase id = "); // RETRIEVE PROFILE AND DISPLAY
+                        //TODO add Sandhya's screen
+                        changeActivity(user);
                     }
                 } else {
                     Log.e(TAG, "Firebase login failed", task.getException());
@@ -152,22 +161,41 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setProfile(FirebaseUser user) {
+    private void changeActivity(FirebaseUser user) {
         user.getIdToken(true).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Log.i(TAG, "Token retrieved successfully");
+                Log.i(TAG, "Token retrieved successfully, token is: " + task.getResult().getToken());
                 // Handle UI updates for the signed-in user.
-                Intent profileIntent = new Intent(MainActivity.this, ActivityProfile.class);
-                profileIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(profileIntent);
-                SharedPreferenceHelper.getInstance(getApplicationContext()).putString("token", task.getResult().getToken());
+
+                // Check user profile exists
+                ProfileRepository profileRepository = new ProfileRepository(this.getApplication());
+
+                profileRepository.getUserProfile().observe(this, new Observer<>() {
+                    @Override
+                    public void onChanged(Profile profile) {
+                        if (profile == null) {
+
+                            System.out.println("profile is null");
+                            Intent createProfile = new Intent(MainActivity.this, CreateProfileActivity.class); // CreateProfileActivity.class
+                            createProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(createProfile);
+
+                        } else {
+                            System.out.println("profile not null" + profile.toString());
+                            Intent updateProfile = new Intent(MainActivity.this, UpdateProfileActivity.class); // CreateProfileActivity.class
+                            Gson converter = new Gson();
+                            updateProfile.putExtra("USER_PROFILE", converter.toJson(profile));
+                            startActivity(updateProfile);
+                        }
+
+                    }
+                });
+
             } else {
                 Log.e(TAG, "Token retrieval failed", task.getException());
             }
-            //TODO move this to on created profile activity
-            connectToBackend();
-        });
 
+        });
     }
 
 }
