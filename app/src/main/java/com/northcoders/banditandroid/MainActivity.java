@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             // Initialize sign in intent
             FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
-                createProfile(currentUser); // call match profile activity
+                moveToMatchesPage(currentUser); // call match profile activity
                 //createProfile(currentUser);
             } else {
                 authenticateWithGoogle();
