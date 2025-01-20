@@ -34,7 +34,7 @@ public class CreateProfileClickHandler {
 
         viewModel.createUserProfile(profile);
 
-        //TODO intent to move to new screen
+        //TODO intent to move to matching activity
 //        Intent intent = new Intent();
 //        context.startActivity(intent);
 

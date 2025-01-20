@@ -1,5 +1,9 @@
 package com.northcoders.banditandroid.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
@@ -8,7 +12,7 @@ import com.northcoders.banditandroid.BR;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Profile extends BaseObservable {
+public class Profile extends BaseObservable implements Parcelable {
 
     String profile_id;
     String profile_name;
@@ -55,6 +59,32 @@ public class Profile extends BaseObservable {
         this.instruments = instruments;
     }
 
+
+    protected Profile(Parcel in) {
+        profile_id = in.readString();
+        img_url = in.readString();
+        description = in.readString();
+        city = in.readString();
+        country = in.readString();
+        searchQuery = in.readString();
+        lat = in.readFloat();
+        lon = in.readFloat();
+        max_distance = in.readFloat();
+        genres = (Set<Genre>) in.createTypedArrayList(Genre.CREATOR);
+        instruments = (Set<Instrument>) in.createTypedArrayList(Instrument.CREATOR);
+    }
+
+    public static final Creator<Profile> CREATOR = new Creator<Profile>() {
+        @Override
+        public Profile createFromParcel(Parcel in) {
+            return new Profile(in);
+        }
+
+        @Override
+        public Profile[] newArray(int size) {
+            return new Profile[size];
+        }
+    };
 
     @Bindable
     public String getProfile_id() {
@@ -252,4 +282,22 @@ public class Profile extends BaseObservable {
         this.notifyPropertyChanged(BR.profile_name);
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(profile_id);
+        dest.writeString(img_url);
+        dest.writeString(description);
+        dest.writeString(city);
+        dest.writeString(country);
+        dest.writeString(searchQuery);
+        dest.writeFloat(lat);
+        dest.writeFloat(lon);
+        dest.writeFloat(max_distance);
+    }
 }

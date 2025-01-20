@@ -67,27 +67,28 @@ public class ProfileRepository {
 
         String token = SharedPreferenceHelper.getInstance(application.getApplicationContext()).getString("token", null);
 
+        System.out.println("token for get user is : " + token);
 
         Call<Profile> call = apiService.getUserProfile(token);
 
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
-                System.out.println("successfully retrieved user's profile");
+                System.out.println("successfully retrieved user's profile" + response.body());
 
                 Profile userProfile = response.body();
 
                 mutableUserProfile.setValue(userProfile);
+
             }
 
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
-                System.out.println("failed to retrieve user profile");
+                System.out.println("failed to retrieve user profile" + t.getMessage());
             }
         });
 
         return mutableUserProfile;
-
 
     }
 
@@ -107,6 +108,25 @@ public class ProfileRepository {
             public void onFailure(Call<Profile> call, Throwable t) {
                 System.out.println("failed to create profile");
 
+            }
+        });
+
+    }
+
+    public void putProfile(Profile profile){
+        String token = SharedPreferenceHelper.getInstance(application.getApplicationContext()).getString("token", null);
+
+        Call<Profile> call = apiService.putProfile(token, profile);
+
+        call.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                System.out.println("successfully put profile");
+            }
+
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+                System.out.println("failed to put profile" + t.getMessage());
             }
         });
 

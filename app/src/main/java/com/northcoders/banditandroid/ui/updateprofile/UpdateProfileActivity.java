@@ -1,20 +1,13 @@
-package com.northcoders.banditandroid.ui.createprofile;
+package com.northcoders.banditandroid.ui.updateprofile;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,12 +20,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.cunoraz.tagview.Tag;
 import com.cunoraz.tagview.TagView;
-import com.google.android.gms.common.api.GoogleApi;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 import com.northcoders.banditandroid.R;
-import com.northcoders.banditandroid.databinding.ActivityCreateProfileBinding;
-import com.northcoders.banditandroid.helper.LogoutHandler;
+import com.northcoders.banditandroid.databinding.ActivityUpdateProfileBinding;
 import com.northcoders.banditandroid.model.Genre;
 import com.northcoders.banditandroid.model.Instrument;
 import com.northcoders.banditandroid.model.Profile;
@@ -46,22 +36,13 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
-public class CreateProfileActivity extends AppCompatActivity {
+public class UpdateProfileActivity extends AppCompatActivity {
 
-
-
-/*
-* TODO
-*  image:
-*  figure out https://medium.com/@mr.yuvraj99/android-take-photo-from-camera-or-pick-image-from-gallery-c2601e364790 how to take photo
-*  from cam or pick image from gallery
-*  genres/instruments:
-*  figure out how to use https://github.com/Cutta/TagView */
-    ActivityCreateProfileBinding binding;
-    CreateProfileViewModel viewModel;
-    CreateProfileClickHandler clickHandler;
+    ActivityUpdateProfileBinding binding;
+    UpdateProfileViewModel viewModel;
+    UpdateProfileClickHandler clickHandler;
     ProfileRepository profileRepository;
-    Profile userProfile = new Profile();
+    Profile userProfile;
     public static final String TAG = "CreateProfileActivity";
 
     Button submitBtn;
@@ -70,23 +51,30 @@ public class CreateProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_create_profile);
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        Log.i(TAG, "onCreate: current user: " + currentUser);
-
-        findViewById(R.id.bt_logout).setOnClickListener(v -> {
-            Log.i(TAG, "onCreate: logout clicked");
-             LogoutHandler.getInstance().logout(this);
-             Log.d(TAG, "onCreate: logout clicked");
-         });
+        setContentView(R.layout.activity_update_profile);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.createProfileScrollView), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
 
-        viewModel = new ViewModelProvider(this).get(CreateProfileViewModel.class);
+        viewModel = new ViewModelProvider(this).get(UpdateProfileViewModel.class);
 
-        clickHandler = new CreateProfileClickHandler(userProfile, this, viewModel);
+        String userProfileString = getIntent().getStringExtra("USER_PROFILE");
+
+        System.out.println(userProfileString);
+
+        Gson converter = new Gson();
+
+        userProfile = converter.fromJson(userProfileString, Profile.class);
+
+        System.out.println("successfully passed profile into update activity" + userProfile);
+
+        clickHandler = new UpdateProfileClickHandler(userProfile, this, viewModel);
 
         binding = DataBindingUtil.setContentView(this,
-                R.layout.activity_create_profile);
+                R.layout.activity_update_profile);
 
         CheckBox bandCheck = findViewById(R.id.bandCheckBox);
         CheckBox musicianCheck = findViewById(R.id.musicianCheckBox);
@@ -95,16 +83,30 @@ public class CreateProfileActivity extends AppCompatActivity {
         TagView genreTagView = findViewById(R.id.genreTagView);
         TagView instrumentTagView = findViewById(R.id.instrumentTagView);
 
+        //add genre tags:
+
+        userProfile.getGenres().forEach(genre -> genreTagView.addTag(new Tag(genre.getGenre())));
+        userProfile.getInstruments().forEach(instrument -> instrumentTagView.addTag(new Tag(instrument.getInstrument())));
+        switch(userProfile.getProfile_type()){
+            case BAND: bandCheck.setChecked(true);
+            break;
+            case MUSICIAN: musicianCheck.setChecked(true);
+            break;
+        }
+
         submitBtn = findViewById(R.id.submitProfileBtn);
 
         ScrollView scrollView = findViewById(R.id.createProfileScrollView);
 
-        submitBtn.setEnabled(false);
+        //submitBtn.setEnabled(false);
 
         binding.setUserProfile(userProfile);
         binding.setClickHandler(clickHandler);
 
         profileRepository = new ProfileRepository(this.getApplication());
+
+        MutableLiveData<ArrayList<Profile>> mutableProfiles =
+                profileRepository.getMutableAllProfiles();
 
 
         //CHECK BOXES:
@@ -133,7 +135,6 @@ public class CreateProfileActivity extends AppCompatActivity {
 
             }
             updateSubmitBtn();
-
         });
 
 
@@ -172,17 +173,17 @@ public class CreateProfileActivity extends AppCompatActivity {
 
         genreTagView.setOnTagClickListener((tag, position) ->{
 
-         genreTagView.remove(position);
+            genreTagView.remove(position);
 
-         Set<Genre> newGenres = new HashSet<>();
-         userProfile.getGenres().forEach(genre -> {
-             String genreName = genre.getGenre();
-             if(!Objects.equals(genreName, tag.text)){
-                 newGenres.add(genre);
-             }
-         });
-         userProfile.setGenres(newGenres);
-         updateSubmitBtn();
+            Set<Genre> newGenres = new HashSet<>();
+            userProfile.getGenres().forEach(genre -> {
+                String genreName = genre.getGenre();
+                if(!Objects.equals(genreName, tag.text)){
+                    newGenres.add(genre);
+                }
+            });
+            userProfile.setGenres(newGenres);
+            updateSubmitBtn();
         });
 
 
@@ -247,4 +248,5 @@ public class CreateProfileActivity extends AppCompatActivity {
     private void updateSubmitBtn(){
         submitBtn.setEnabled(userProfile.checkAttributesNotNull());
     }
+
 }
