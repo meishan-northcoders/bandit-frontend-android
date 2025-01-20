@@ -69,7 +69,7 @@ public class CreateProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //EdgeToEdge.enable(this);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_create_profile);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         Log.i(TAG, "onCreate: current user: " + currentUser);

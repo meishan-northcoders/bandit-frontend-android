@@ -1,14 +1,21 @@
 package com.northcoders.banditandroid.ui.matchprofile;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.northcoders.banditandroid.R;
+import com.northcoders.banditandroid.databinding.ActivityMatchingProfilesBinding;
 import com.northcoders.banditandroid.model.Genre;
 import com.northcoders.banditandroid.model.Instrument;
 import com.northcoders.banditandroid.model.Profile;
@@ -24,56 +31,36 @@ public class MatchingProfilesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ProfileMatchAdapter profileMatchAdapter;
     private List<Profile> profileList;
+    private ActivityMatchingProfilesBinding activityMatchingProfilesBinding;
+    private MatchProfileViewModel matchProfileViewModel;
+    ImageView animationOverlay;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_matching_profiles);
+//        setContentView(R.layout.activity_matching_profiles);
+//        recyclerView = findViewById(R.id.matches_recyclerView);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        activityMatchingProfilesBinding = DataBindingUtil.setContentView(this, R.layout.activity_matching_profiles);
+        matchProfileViewModel = new ViewModelProvider(this).get(MatchProfileViewModel.class);
+        getFilteredMatches();
+    }
 
-        recyclerView = findViewById(R.id.matches_recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    private void getFilteredMatches() {
+        matchProfileViewModel.getFilteredProfiles().observe(this, profiles -> {
+            profileList = profiles;
+            displayInRecyclerView();
+        });
+    }
 
-        // Mock data
-        profileList = new ArrayList<>();
-
-        HashSet<Genre> genres = new HashSet<>();
-        genres.add(new Genre("Rock"));
-        HashSet<Instrument> instruments = new HashSet<>();
-        instruments.add(new Instrument("Guitar"));
-        //String profile_id, String img_url, ProfileType profile_type, String description
-        // , String city, String country, String searchQuery, float lat,
-        // float lon, float max_distance, Set<Genre> genres, Set<Instrument> instruments
-        profileList.add(new Profile("344",
-                "https://lh3.googleusercontent.com/a/ACg8ocKF4RuOneJ-H-LD3N4Y63PKapk1ReOf92qbz1Cbb9lglmI06g=s96-c",
-                ProfileType.MUSICIAN, // <- Add this comma
-                "Energetic and passionate guitarist looking to perform in high metal genre band",
-                "Manchester",
-                "UK",
-                "I am Looking for an energetic and passionate guitarist to join my band",
-                53.4f,
-                -2.2f,
-                50.0f,
-                genres,
-                instruments));
-        profileList.add(new Profile("3456",
-                "https://lh3.googleusercontent.com/a/ACg8ocKF4RuOneJ-H-LD3N4Y63PKapk1ReOf92qbz1Cbb9lglmI06g=s96-c",
-                ProfileType.BAND, // <- Add this comma
-                "I Love to play Rock Music and high metal, Interested in joining a band that is looking for a guitarist",
-                "London",
-                "UK",
-                "I Am here to join a band that is looking for a guitarist",
-                53.4f,
-                -2.2f,
-                50.0f,
-                genres,
-                instruments));
-
-
-        // Set up adapter
-        profileMatchAdapter = new ProfileMatchAdapter(profileList, this);
+    private void displayInRecyclerView(){
+        recyclerView = activityMatchingProfilesBinding.matchesRecyclerView;
+        profileMatchAdapter = new ProfileMatchAdapter(profileList, this);//class is implementing recyclerViewInterface
         recyclerView.setAdapter(profileMatchAdapter);
-
+        recyclerView.setLayoutManager( new LinearLayoutManager(this));
+        profileMatchAdapter.notifyDataSetChanged();
         // Add swipe gestures
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -83,19 +70,32 @@ public class MatchingProfilesActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                animationOverlay = activityMatchingProfilesBinding.animationOverlay;
+                animationOverlay.setVisibility(View.VISIBLE);
                 int position = viewHolder.getAdapterPosition();
                 profileList.remove(position);
                 profileMatchAdapter.notifyItemRemoved(position);
                 if (direction == ItemTouchHelper.LEFT) {
+                    animationOverlay.setImageResource(R.drawable.sad);
                     // Handle left swipe (e.g., Dislike)
                 } else if (direction == ItemTouchHelper.RIGHT) {
                     // Handle right swipe (e.g., Like)
+                    animationOverlay.setImageResource(R.drawable.fireworks);
                 }
+                animateOverlay(animationOverlay);
             }
         };
-
-
         // Attach the ItemTouchHelper to the RecyclerView
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
+    }
+
+    private void animateOverlay(ImageView overlay) {
+        overlay.animate()
+                .alpha(1f)
+                .scaleX(1.5f)
+                .scaleY(1.5f)
+                .setDuration(500)
+                .withEndAction(() -> overlay.setVisibility(View.GONE))
+                .start();
     }
 }

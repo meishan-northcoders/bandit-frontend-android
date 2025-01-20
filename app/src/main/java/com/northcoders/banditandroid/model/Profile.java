@@ -11,6 +11,7 @@ import java.util.Set;
 public class Profile extends BaseObservable {
 
     String profile_id;
+    String profile_name;
 
     private String img_url;
 
@@ -38,8 +39,9 @@ public class Profile extends BaseObservable {
     public Profile() {
     }
 
-    public Profile(String profile_id, String img_url, ProfileType profile_type, String description, String city, String country, String searchQuery, float lat, float lon, float max_distance, Set<Genre> genres, Set<Instrument> instruments) {
+    public Profile(String profile_id, String profile_name,String img_url, ProfileType profile_type, String description, String city, String country, String searchQuery, float lat, float lon, float max_distance, Set<Genre> genres, Set<Instrument> instruments) {
         this.profile_id = profile_id;
+        this.profile_name = profile_name;
         this.img_url = img_url;
         this.profile_type = profile_type;
         this.description = description;
@@ -57,6 +59,11 @@ public class Profile extends BaseObservable {
     @Bindable
     public String getProfile_id() {
         return profile_id;
+    }
+
+    @Bindable
+    public String getProfile_name() {
+        return profile_name;
     }
 
     public void setProfile_id(String profile_id) {
@@ -180,7 +187,6 @@ public class Profile extends BaseObservable {
         this.notifyPropertyChanged(BR.searchQuery);
     }
 
-
     public boolean checkAttributesNotNull(){
         boolean result = true;
 
@@ -240,4 +246,10 @@ public class Profile extends BaseObservable {
         this.country = country;
         this.notifyPropertyChanged(BR.country);
     }
+
+    public void setProfile_name(String profile_name) {
+        this.profile_name = profile_name;
+        this.notifyPropertyChanged(BR.profile_name);
+    }
+
 }

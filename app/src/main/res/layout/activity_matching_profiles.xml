@@ -29,6 +29,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/navigation_buttons_fragment" />
 
+        <!-- ImageView for Overlay Animations (e.g., Hats, Emojis) -->
+        <ImageView
+            android:id="@+id/animationOverlay"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/overlay_animation"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints" />
+
         <!-- Navigation Buttons Fragment -->
         <fragment
             android:id="@+id/navigation_buttons_fragment"
