@@ -13,6 +13,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Header;
+import retrofit2.http.PUT;
 
 public interface BandMateApiService {
     @GET("api/v1/greeting")
@@ -23,6 +24,9 @@ public interface BandMateApiService {
 
     @GET("api/v1/profiles/user")
     public Call<Profile> getUserProfile(@Header("Authorization") String authToken); //gets current logged in user profile
+
+    @PUT("api/v1/profiles")
+    public Call<Profile> putProfile(@Header("Authorization") String authToken, @Body Profile profile);
 
     @POST("api/v1/profiles")
     public Call<Profile> postProfile(@Header("Authorization") String authToken, @Body Profile profile);

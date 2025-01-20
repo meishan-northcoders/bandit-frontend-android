@@ -19,10 +19,6 @@ public class CreateProfileViewModel extends AndroidViewModel {
         profileRepository = new ProfileRepository(application);
     }
 
-    public LiveData<ArrayList<Profile>> getAllProfiles(){
-        return profileRepository.getMutableAllProfiles();
-    }
-
     public void createUserProfile(Profile profile){
         System.out.println("profile is currently: " + profile.toString());
         profileRepository.createUserProfile(profile);

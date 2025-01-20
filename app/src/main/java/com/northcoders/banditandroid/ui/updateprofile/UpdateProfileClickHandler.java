@@ -1,25 +1,22 @@
-package com.northcoders.banditandroid.ui.createprofile;
+package com.northcoders.banditandroid.ui.updateprofile;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.northcoders.banditandroid.model.Profile;
 
-public class CreateProfileClickHandler {
+public class UpdateProfileClickHandler {
     Profile profile;
 
     Context context;
 
-    CreateProfileViewModel viewModel;
+    UpdateProfileViewModel viewModel;
 
 
-    public CreateProfileClickHandler() {
+    public UpdateProfileClickHandler() {
     }
 
-    public CreateProfileClickHandler(Profile profile, Context context, CreateProfileViewModel viewModel) {
+    public UpdateProfileClickHandler(Profile profile, Context context, UpdateProfileViewModel viewModel) {
         this.profile = profile;
         this.context = context;
         this.viewModel = viewModel;
@@ -29,9 +26,9 @@ public class CreateProfileClickHandler {
 
         System.out.println("submit button clicked!");
 
-        viewModel.createUserProfile(profile);
+        viewModel.putUserProfile(profile);
 
-        //TODO intent to move to matching activity
+        //TODO intent to move to previous screen or matching activity
 //        Intent intent = new Intent();
 //        context.startActivity(intent);
 

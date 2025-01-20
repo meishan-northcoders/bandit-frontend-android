@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="userProfile"
+            type="com.northcoders.banditandroid.model.Profile" />
+        <variable
+            name="clickHandler"
+            type="com.northcoders.banditandroid.ui.updateprofile.UpdateProfileClickHandler"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/createProfileView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.createprofile.CreateProfileActivity">
+
+        <ScrollView
+            android:id="@+id/createProfileScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="0dp">
+
+            <LinearLayout
+                android:id="@+id/createProfileLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="56dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/neutralGray"
+                android:backgroundTint="#FFFFFF"
+                android:backgroundTintMode="add"
+                android:orientation="vertical"
+                android:outlineAmbientShadowColor="@color/blue"
+                android:outlineProvider="paddedBounds">
+
+                <TextView
+                    android:id="@+id/descriptionTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Who are you?"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@id/editDescriptionInput" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/descriptionTitle">
+
+                    <CheckBox
+                        android:id="@+id/bandCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingTop="0dp"
+                        android:text="band" />
+
+                    <CheckBox
+                        android:id="@+id/musicianCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="musician" />
+                </LinearLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editDescriptionInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="#000000">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editDescriptionText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="talk about yourself here..."
+                        android:paddingTop="16dp"
+                        android:text="@={userProfile.description}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/locationTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-light"
+                    android:paddingTop="16dp"
+                    android:text="Where are you based?"
+                    android:textSize="24sp" />
+
+                <!--                <fragment android:id="@+id/autocomplete_fragment"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
+                <!--                    />-->
+
+                <!--                <SearchView-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    android:queryHint="search for your city here..." />-->
+
+                <!--                <SearchView-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    android:queryHint="search for your city here..." />-->
+
+                <EditText
+                    android:id="@+id/cityEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="enter your city here..."
+                    android:text="@={userProfile.city}"/>
+
+                <EditText
+                    android:id="@+id/countryEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="enter your country here..."
+                    android:text="@={userProfile.country}"/>
+
+                <com.cunoraz.tagview.TagView
+                    android:id="@+id/cityTagView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#FFFFFF"
+                    app:layout_constraintTop_toBottomOf="@id/genreTagTitle" />
+
+
+                <TextView
+                    android:id="@+id/genreTagTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Tag your faourite genres:"
+                    android:textSize="24sp"
+                    app:layout_constraintTop_toBottomOf="@id/editDescriptionInput" />
+
+                <EditText
+                    android:id="@+id/editAddGenreText"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="enter a genre here..."
+                    android:inputType="text" />
+
+                <com.cunoraz.tagview.TagView
+                    android:id="@+id/genreTagView"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dp"
+                    android:backgroundTint="#FFFFFF"
+                    app:layout_constraintTop_toBottomOf="@id/genreTagTitle" />
+
+
+                <TextView
+                    android:id="@+id/instrumentTagTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="What instruments can you play?"
+                    android:textSize="24sp"
+                    app:layout_constraintTop_toBottomOf="@id/editDescriptionInput" />
+
+                <EditText
+                    android:id="@+id/editAddInstrumentText"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="enter an instrument here..."
+                    android:inputType="text" />
+
+                <com.cunoraz.tagview.TagView
+                    android:id="@+id/instrumentTagView"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dp"
+                    app:layout_constraintTop_toBottomOf="@id/instrumentTagTitle" />
+
+                <TextView
+                    android:id="@+id/preferencesTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Who are you looking for?"
+                    android:textSize="24sp"
+                    app:layout_constraintTop_toBottomOf="@id/editDescriptionInput" />
+
+                <EditText
+                    app:layout_constraintTop_toBottomOf="@id/preferencesTitle"
+                    android:id="@+id/editGetuserPrefs"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:text="@={userProfile.searchQuery}"
+                    android:hint="who are you looking for? e.g. i am looking for a musician who likes jazz and plays the keyboard..."
+                    android:inputType="text" />
+
+
+            </LinearLayout>
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/createProfileTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="#FFFFFF"
+            android:fontFamily="@font/delius_swash_caps"
+            android:text="Update your profile"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/submitProfileBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/delius_swash_caps"
+            android:onClick="@{clickHandler::submitBtnClick}"
+            android:text="Update profile"
+            android:textColorLink="@color/colorAccent"
+            app:iconTint="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+
