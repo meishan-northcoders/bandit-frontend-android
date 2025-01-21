@@ -12,6 +12,7 @@ import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.databinding.MessageItemCorrespondentBinding;
 import com.northcoders.banditandroid.databinding.MessageItemUserBinding;
 import com.northcoders.banditandroid.model.MessageResponseDTO;
+import com.northcoders.banditandroid.model.Profile;
 import com.northcoders.banditandroid.model.ProfileAccurate;
 import com.northcoders.banditandroid.model.ProfileType;
 
@@ -21,14 +22,16 @@ public class MessageAdapter extends RecyclerView.Adapter {
     private MessageItemUserBinding messageItemUserBinding;
     private MessageItemCorrespondentBinding messageItemCorrespondentBinding;
     private List<MessageResponseDTO> messages;
+    private ProfileAccurate correspondentProfile;
 
     private static final int VIEW_TYPE_USER_MESSAGE = 1;
     private static final int VIEW_TYPE_CORRESPONDENT_MESSAGE = 2;
 
     private final String TAG = "MessageAdapter";
 
-    public MessageAdapter(List<MessageResponseDTO> messages) {
+    public MessageAdapter(List<MessageResponseDTO> messages, ProfileAccurate correspondentProfile) {
         this.messages = messages;
+        this.correspondentProfile = correspondentProfile;
     }
 
         @Override
@@ -36,12 +39,12 @@ public class MessageAdapter extends RecyclerView.Adapter {
         MessageResponseDTO message = (MessageResponseDTO) messages.get(position);
 
         //if getUserProfile doesn't work in a context which isn't MessageActivity then the MessageAdapter can be updated to take a String (activeUserId) or a Profile (activeUserProfile) as a parameter instead
-        if (message.getSenderId().equals(getUserProfile().getProfile_id())) {
-            // If the current user is the sender of the message
-            return VIEW_TYPE_USER_MESSAGE;
-        } else {
-            // If some other user sent the message
+        if (message.getSenderId().equals(correspondentProfile.getProfile_id())) {
+            // If the correspondent is the sender of the message
             return VIEW_TYPE_CORRESPONDENT_MESSAGE;
+        } else {
+            // If the active user (or another user; this case is yet to be handled...) sent the message
+            return VIEW_TYPE_USER_MESSAGE;
         }
     }
 

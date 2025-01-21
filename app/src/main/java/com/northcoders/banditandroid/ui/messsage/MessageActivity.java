@@ -31,6 +31,7 @@ import java.util.List;
 public class MessageActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<MessageResponseDTO> messages;
+    private ProfileAccurate correspondentProfile;
     private MessageAdapter messageAdapter;
     private MessageItemUserBinding messageItemUserBinding;
     private MessageItemCorrespondentBinding messageItemCorrespondentBinding;
@@ -48,7 +49,7 @@ public class MessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message);
 
         //TODO this will be updated when get CorrespondentProfile extracts the correspondent from the parcel sent from favourites, esp. the Class will change from AccurateProfile...
-        ProfileAccurate correspondentProfile = getCorrespondentProfile();
+        correspondentProfile = getCorrespondentProfile();
 
         //setup and populate recyclerview
         messageItemUserBinding = DataBindingUtil.setContentView(
@@ -106,7 +107,7 @@ public class MessageActivity extends AppCompatActivity {
 
     private void displayMessagesInRecyclerView() {
         recyclerView = findViewById(R.id.recycler_gchat); //this is slightly different to Simon
-        messageAdapter = new MessageAdapter(messages);
+        messageAdapter = new MessageAdapter(messages, correspondentProfile);
         recyclerView.setAdapter(messageAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
