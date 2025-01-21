@@ -1,18 +1,40 @@
 package com.northcoders.banditandroid.model;
 
-import java.util.Set;
 
-public class Genre {
-    private String genre;
-    private Set<ProfileAccurate> profiles;
 
-    public Genre(String genre, Set<ProfileAccurate> profiles) {
-        this.genre = genre;
-        this.profiles = profiles;
-    }
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.BaseObservable;
+
+public class Genre extends BaseObservable implements Parcelable {
+
+    String genre;
+
 
     public Genre() {
     }
+
+    public Genre(String genre) {
+        this.genre = genre;
+    }
+
+    protected Genre(Parcel in) {
+        genre = in.readString();
+    }
+
+    public static final Creator<Genre> CREATOR = new Creator<Genre>() {
+        @Override
+        public Genre createFromParcel(Parcel in) {
+            return new Genre(in);
+        }
+
+        @Override
+        public Genre[] newArray(int size) {
+            return new Genre[size];
+        }
+    };
 
     public String getGenre() {
         return genre;
@@ -22,11 +44,15 @@ public class Genre {
         this.genre = genre;
     }
 
-    public Set<ProfileAccurate> getProfiles() {
-        return profiles;
+
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setProfiles(Set<ProfileAccurate> profiles) {
-        this.profiles = profiles;
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(genre);
     }
 }

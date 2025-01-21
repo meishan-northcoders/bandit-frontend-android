@@ -4,6 +4,13 @@
     <string name="app_sub_title">Unite. Create. Perform</string>
     <string name="login_with_gmail">login with gmail</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="describe_yourself_here">Describe yourself here...</string>
     <string name="web_client_id">259890167411-i7sb2bfq6uov0imbqei9gkssj25r136o.apps.googleusercontent.com</string>
     <string name="user_email">user email</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_more_items">No more items</string>
+    <string name="overlay_animation">overlay_animation</string>
+    <string name="save">Save</string>
+    <string name="home">Home</string>
 </resources>

@@ -34,10 +34,9 @@ public class ActivityProfile extends AppCompatActivity {
         ivImage = findViewById(R.id.user_image);
         uName = findViewById(R.id.user_name);
         uemail = findViewById(R.id.user_email);
-        btLogout = findViewById(R.id.bt_logout);
-// to test messages
-        btMessage = findViewById(R.id.bt_message);
-//
+
+//        btLogout = findViewById(R.id.bt_logout);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             // No user is signed in
@@ -54,19 +53,11 @@ public class ActivityProfile extends AppCompatActivity {
         uemail.setText(user.getEmail() != null ? user.getEmail() : "No email");
         // Handle Logout
 
-        btLogout.setOnClickListener(v -> {
-            LogoutHandler.getInstance().logout(this);
-        });
 
-        //to test message
-        btMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
-                startActivity(intent);
-            }
-        });
-        //
+//        btLogout.setOnClickListener(v -> {
+//            LogoutHandler.getInstance().logout(this);
+//        });
+
     }
 
 }

@@ -1,19 +1,40 @@
 package com.northcoders.banditandroid.model;
 
-import java.util.Set;
 
-public class Instrument {
-    private String instrument;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-    private Set<ProfileAccurate> profiles;
+import androidx.annotation.NonNull;
+import androidx.databinding.BaseObservable;
 
-    public Instrument(String instrument, Set<ProfileAccurate> profiles) {
-        this.instrument = instrument;
-        this.profiles = profiles;
-    }
+public class Instrument extends BaseObservable implements Parcelable {
+
+    String instrument;
+
 
     public Instrument() {
     }
+
+    public Instrument(String instrument) {
+        this.instrument = instrument;
+    }
+
+    protected Instrument(Parcel in) {
+        instrument = in.readString();
+    }
+
+    public static final Creator<Instrument> CREATOR = new Creator<Instrument>() {
+        @Override
+        public Instrument createFromParcel(Parcel in) {
+            return new Instrument(in);
+        }
+
+        @Override
+        public Instrument[] newArray(int size) {
+            return new Instrument[size];
+        }
+    };
+
 
     public String getInstrument() {
         return instrument;
@@ -23,11 +44,15 @@ public class Instrument {
         this.instrument = instrument;
     }
 
-    public Set<ProfileAccurate> getProfiles() {
-        return profiles;
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setProfiles(Set<ProfileAccurate> profiles) {
-        this.profiles = profiles;
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(instrument);
+
     }
 }
