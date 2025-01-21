@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.model.Profile;
@@ -17,17 +20,30 @@ public class activity_favourites_page extends AppCompatActivity {
 
     List<Profile> profiles;
     FavouritesActivityViewModel viewModel;
+    FavouritesClickHandler clickHandler;
+    FavouriteProfilesAdapter adapter;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_favourites_page);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        clickHandler = new FavouritesClickHandler(this);
         viewModel = new FavouritesActivityViewModel(getApplication());
+        profiles = viewModel.getUserFavourites();
+        profiles.forEach(System.out::println);
+        adapter = new FavouriteProfilesAdapter(this, profiles, clickHandler);
+        recyclerView = new RecyclerView(this);
+    }
+
+    public void displayInRecyclerView(){
+        if (recyclerView == null){
+            recyclerView = findViewById(R.id.favRecyclerView);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setAdapter(adapter);
+        }
+        adapter.notifyDataSetChanged();
     }
 }
