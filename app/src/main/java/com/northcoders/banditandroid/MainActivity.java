@@ -148,21 +148,25 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "Firebase login success");
                     FirebaseUser user = task.getResult().getUser();
                     assert user != null;
+                    setupUserTokeninSharedCred(user);
                     changeActivity(user);
-//                    if (Objects.requireNonNull(task.getResult().getAdditionalUserInfo()).isNewUser()) {
-//                        //New user registration
-//                        Log.i(TAG, "new user registration flow");  // CREATE NEW PROFILE IN BACKEND
-//                        changeActivity(user);
-//                    } else {
-//                        Log.i(TAG, "existing user flow"); // RETRIEVE PROFILE AND DISPLAY
-//                        moveToMatchesPage(user);
-//                           //changeActivity(user);
 //                    }
                 } else {
                     Log.e(TAG, "Firebase login failed", task.getException());
                 }
             }
         });
+    }
+    private void setupUserTokeninSharedCred(FirebaseUser user) {
+        user.getIdToken(true).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.i(TAG, "Token retrieved successfully");
+                SharedPreferenceHelper.getInstance(getApplicationContext()).putString("token", task.getResult().getToken());
+            } else {
+                Log.e(TAG, "Token retrieval failed", task.getException());
+            }
+        });
+
     }
 
     private void changeActivity(FirebaseUser user) {
