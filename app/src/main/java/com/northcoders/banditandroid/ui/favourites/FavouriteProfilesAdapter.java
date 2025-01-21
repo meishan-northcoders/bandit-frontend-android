@@ -1,6 +1,7 @@
 package com.northcoders.banditandroid.ui.favourites;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.databinding.FavouriteRecyclerViewBinding;
 import com.northcoders.banditandroid.model.Profile;
+import com.northcoders.banditandroid.ui.messsage.MessageActivity;
 
 import java.util.List;
 
@@ -80,7 +82,6 @@ public class FavouriteProfilesAdapter extends RecyclerView.Adapter<FavouriteProf
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             recyclerView.onItemClick(position);
-                            //intent
                         }
                     }
                 }

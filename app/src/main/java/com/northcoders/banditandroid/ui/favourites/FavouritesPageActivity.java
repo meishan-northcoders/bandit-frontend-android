@@ -5,11 +5,14 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.model.Profile;
+import com.northcoders.banditandroid.ui.messsage.MessageActivity;
 
 import java.util.List;
 
@@ -31,13 +34,9 @@ public class FavouritesPageActivity extends AppCompatActivity implements Recycle
 
         viewModel = new FavouritesActivityViewModel(getApplication());
 
-        profiles = viewModel.getUserFavourites();
+        getProfiles();
 
-        //profiles.forEach(System.out::println);
 
-        adapter = new FavouriteProfilesAdapter(this, this, profiles, clickHandler);
-
-        displayInRecyclerView();
 
     }
 
@@ -46,6 +45,8 @@ public class FavouritesPageActivity extends AppCompatActivity implements Recycle
             recyclerView = findViewById(R.id.favRecyclerView);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setHasFixedSize(true);
+            adapter = new FavouriteProfilesAdapter(this, this,
+                    profiles, clickHandler);
             recyclerView.setAdapter(adapter);
         }
         adapter.notifyDataSetChanged();
@@ -56,20 +57,29 @@ public class FavouritesPageActivity extends AppCompatActivity implements Recycle
     public void onItemClick(int position) {
 
         System.out.println("item clicked, position is:" + position);
-//        Intent intent = new Intent(this,)
 
+        Intent intent = new Intent(this, MessageActivity.class);
 
-/*
-*     Intent intent = new Intent(this, UpdateExistingAlbum.class);
-    if(filteredAlbums == null || filteredAlbums.isEmpty()){
-        intent.putExtra(ALBUM_KEY,albums.get(position));
-    }
-    else {
-        intent.putExtra(ALBUM_KEY,filteredAlbums.get(position));
-    }
-    this.startActivity(intent);
-*/
+        Gson converter = new Gson();
 
+        String profileStr =  converter.toJson(profiles.get(position));
+        intent.putExtra("PROFILE", profileStr);
+        this.startActivity(intent);
 
     }
+
+    private void getProfiles(){
+
+        viewModel.getUserFavourites().observe(this, new Observer<List<Profile>>() {
+            @Override
+            public void onChanged(List<Profile> profiles) {
+
+                FavouritesPageActivity.this.profiles = profiles;
+
+                displayInRecyclerView();
+            }
+        });
+    }
+
+
 }

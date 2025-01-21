@@ -3,8 +3,10 @@ package com.northcoders.banditandroid.ui.favourites;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.Observable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.northcoders.banditandroid.model.Favourite;
 import com.northcoders.banditandroid.model.FavouriteRepository;
@@ -22,8 +24,7 @@ public class FavouritesActivityViewModel extends AndroidViewModel {
         favouriteRepository = new FavouriteRepository(application);
     }
 
-    List<Profile> getUserFavourites(){
-        MutableLiveData<List<Profile>> mutableLiveData = favouriteRepository.getFavouriteProfiles();
-        return mutableLiveData.getValue();
+    MutableLiveData<List<Profile>> getUserFavourites(){
+        return favouriteRepository.getFavouriteProfiles();
     }
 }
