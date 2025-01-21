@@ -243,24 +243,28 @@
 <!--            app:iconTint="@color/colorAccent"-->
 <!--            app:layout_constraintBottom_toBottomOf="parent"-->
 <!--            app:layout_constraintEnd_toEndOf="parent"/>-->
-        <LinearLayout
-            android:id="@+id/footerLayout"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:background="@color/neutralGray"
-            app:layout_constraintBottom_toBottomOf="parent">
+<!--        <LinearLayout-->
+<!--            android:id="@+id/footerLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center"-->
+<!--            android:background="@color/neutralGray"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent">-->
 
-            <ImageButton
-                android:id="@+id/bt_save"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:layout_marginHorizontal="16dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/save_icon"
-                android:onClick="@{clickHandler::submitBtnClick}"/>
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/bt_save"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginHorizontal="16dp"
+
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClick="@{clickHandler::submitBtnClick}"
+            android:src="@drawable/save_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+             />
+<!--        </LinearLayout>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
