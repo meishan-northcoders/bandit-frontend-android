@@ -74,14 +74,16 @@ public class MatchingProfilesActivity extends AppCompatActivity {
                 animationOverlay = activityMatchingProfilesBinding.animationOverlay;
                 animationOverlay.setVisibility(View.VISIBLE);
                 int position = viewHolder.getAdapterPosition();
+                Profile profile = profileList.get(position);
                 profileList.remove(position);
+
                 profileMatchAdapter.notifyItemRemoved(position);
                 if (direction == ItemTouchHelper.LEFT) {
                     animationOverlay.setImageResource(R.drawable.sad);
                     // Handle left swipe (e.g., Dislike)
                 } else if (direction == ItemTouchHelper.RIGHT) {
                     // Handle right swipe (e.g., Like)
-                    Profile profile = profileList.get(position);
+
                     Favourite favourite = new Favourite();
                     favourite.setYrFavProfileId(profile.getProfile_id());
                     matchProfileViewModel.addFavouriteProfile(favourite);
