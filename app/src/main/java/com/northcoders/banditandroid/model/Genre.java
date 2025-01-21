@@ -1,5 +1,7 @@
 package com.northcoders.banditandroid.model;
 
+
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -41,6 +43,8 @@ public class Genre extends BaseObservable implements Parcelable {
     public void setGenre(String genre) {
         this.genre = genre;
     }
+
+
 
     @Override
     public int describeContents() {

@@ -18,3 +18,4 @@ public enum ProfileType {
         return prettyName;
     }
 }
+

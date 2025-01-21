@@ -1,5 +1,6 @@
 package com.northcoders.banditandroid.model;
 
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -34,6 +35,7 @@ public class Instrument extends BaseObservable implements Parcelable {
         }
     };
 
+
     public String getInstrument() {
         return instrument;
     }
@@ -41,6 +43,7 @@ public class Instrument extends BaseObservable implements Parcelable {
     public void setInstrument(String instrument) {
         this.instrument = instrument;
     }
+
 
     @Override
     public int describeContents() {
@@ -50,5 +53,6 @@ public class Instrument extends BaseObservable implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(instrument);
+
     }
 }
