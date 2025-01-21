@@ -21,8 +21,8 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginHorizontal="16dp"
+        android:src="@drawable/favcontacts"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@android:drawable/btn_star_big_on"
         android:contentDescription="Like" />
 
     <ImageButton
@@ -31,7 +31,7 @@
         android:layout_height="56dp"
         android:layout_marginHorizontal="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/favcontacts"
+        android:src="@android:drawable/btn_star_big_on"
         android:contentDescription="Favorite" />
 
     <ImageButton
