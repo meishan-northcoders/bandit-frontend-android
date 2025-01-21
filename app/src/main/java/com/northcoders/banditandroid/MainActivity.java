@@ -16,6 +16,7 @@ import androidx.credentials.CredentialManagerCallback;
 import androidx.credentials.GetCredentialRequest;
 import androidx.credentials.GetCredentialResponse;
 import androidx.credentials.exceptions.GetCredentialException;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 
@@ -35,11 +36,13 @@ import com.northcoders.banditandroid.model.ProfileRepository;
 import com.northcoders.banditandroid.service.BandMateApiService;
 import com.northcoders.banditandroid.service.RetrofitInstance;
 import com.northcoders.banditandroid.ui.createprofile.CreateProfileActivity;
+//import com.northcoders.banditandroid.ui.testmaps.TestMapActivity;
+import com.northcoders.banditandroid.ui.matchprofile.MatchingProfilesActivity;
 import com.northcoders.banditandroid.ui.updateprofile.UpdateProfileActivity;
+
 
 import java.io.IOException;
 import java.util.Objects;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
             // Initialize sign in intent
             FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
-                changeActivity(currentUser);
+               changeActivity(currentUser);
+                //moveToMatchesPage(currentUser); // call match profile activity
+                //createProfile(currentUser);
             } else {
                 authenticateWithGoogle();
             }
@@ -112,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 .addCredentialOption(signInWithGoogleOption)
                 .build();
         CredentialManager credentialManager = CredentialManager.create(this);
-
         credentialManager.getCredentialAsync(this,
                 request,
                 new CancellationSignal(),
@@ -144,16 +148,16 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "Firebase login success");
                     FirebaseUser user = task.getResult().getUser();
                     assert user != null;
-
-                    if (Objects.requireNonNull(task.getResult().getAdditionalUserInfo()).isNewUser()) {
-                        //New user registration
-                        Log.i(TAG, "new user registration flow");  // CREATE NEW PROFILE IN BACKEND
-                        changeActivity(user);
-                    } else {
-                        Log.i(TAG, "existing user flow, firebase id = "); // RETRIEVE PROFILE AND DISPLAY
-                        //TODO add Sandhya's screen
-                        changeActivity(user);
-                    }
+                    changeActivity(user);
+//                    if (Objects.requireNonNull(task.getResult().getAdditionalUserInfo()).isNewUser()) {
+//                        //New user registration
+//                        Log.i(TAG, "new user registration flow");  // CREATE NEW PROFILE IN BACKEND
+//                        changeActivity(user);
+//                    } else {
+//                        Log.i(TAG, "existing user flow"); // RETRIEVE PROFILE AND DISPLAY
+//                        moveToMatchesPage(user);
+//                           //changeActivity(user);
+//                    }
                 } else {
                     Log.e(TAG, "Firebase login failed", task.getException());
                 }
@@ -169,25 +173,21 @@ public class MainActivity extends AppCompatActivity {
 
                 // Check user profile exists
                 ProfileRepository profileRepository = new ProfileRepository(this.getApplication());
+                MutableLiveData<Profile> mutable = profileRepository.getUserProfile();
+                Profile profile = mutable.getValue();
 
                 profileRepository.getUserProfile().observe(this, new Observer<>() {
                     @Override
                     public void onChanged(Profile profile) {
                         if (profile == null) {
-
                             System.out.println("profile is null");
                             Intent createProfile = new Intent(MainActivity.this, CreateProfileActivity.class); // CreateProfileActivity.class
                             createProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(createProfile);
 
                         } else {
-                            System.out.println("profile not null" + profile.toString());
-                            Intent updateProfile = new Intent(MainActivity.this, UpdateProfileActivity.class); // CreateProfileActivity.class
-                            Gson converter = new Gson();
-                            updateProfile.putExtra("USER_PROFILE", converter.toJson(profile));
-                            startActivity(updateProfile);
+                            moveToMatchesPage(user);  //instead invoke this update in match activity button click
                         }
-
                     }
                 });
 
@@ -195,6 +195,23 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "Token retrieval failed", task.getException());
             }
 
+        });
+    }
+
+    private void moveToMatchesPage(FirebaseUser user) {
+        user.getIdToken(true).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.i(TAG, "Token retrieved successfully");
+                // Handle UI updates for the signed-in user.
+                //TODO check if user has signed in before here.
+                Intent matchProfile = new Intent(this, MatchingProfilesActivity.class);
+                matchProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                this.startActivity(matchProfile);
+                SharedPreferenceHelper.getInstance(getApplicationContext()).putString("token", task.getResult().getToken());
+            } else {
+                Log.e(TAG, "Token retrieval failed", task.getException());
+            }
+            //TODO move this to on created profile activity
         });
     }
 

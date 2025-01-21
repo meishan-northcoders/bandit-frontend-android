@@ -52,25 +52,34 @@ public class UpdateProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_update_profile);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.createProfileScrollView), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
 
         viewModel = new ViewModelProvider(this).get(UpdateProfileViewModel.class);
+        //get data for the profile
+        ProfileRepository profileRepository = new ProfileRepository(this.getApplication());
+        MutableLiveData<Profile> mutable = profileRepository.getUserProfile();
+        mutable.observe(this, profile -> {
+            userProfile = profile;
+            //binding.setUserProfile(userProfile);
+            userProfileActions();
 
-        String userProfileString = getIntent().getStringExtra("USER_PROFILE");
+        });
+//        userProfile = mutable.getValue();
 
-        System.out.println(userProfileString);
+//        String userProfileString = getIntent().getStringExtra("USER_PROFILE");
+//
+//        System.out.println(userProfileString);
+//
+//        Gson converter = new Gson();
+//
+//        userProfile = converter.fromJson(userProfileString, Profile.class);
+//
+//        System.out.println("successfully passed profile into update activity" + userProfile);
 
-        Gson converter = new Gson();
+    }
 
-        userProfile = converter.fromJson(userProfileString, Profile.class);
-
-        System.out.println("successfully passed profile into update activity" + userProfile);
-
+    private void userProfileActions() {
+        ProfileRepository profileRepository;
         clickHandler = new UpdateProfileClickHandler(userProfile, this, viewModel);
 
         binding = DataBindingUtil.setContentView(this,
@@ -242,7 +251,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 updateSubmitBtn();
             }
         });
-
     }
 
     private void updateSubmitBtn(){

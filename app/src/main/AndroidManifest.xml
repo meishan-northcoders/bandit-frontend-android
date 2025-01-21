@@ -19,6 +19,12 @@
             android:name=".ui.updateprofile.UpdateProfileActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.matchprofile.MatchingProfileDetails"
+            android:exported="false" />
+        <activity
+            android:name=".ui.matchprofile.MatchingProfilesActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.createprofile.CreateProfileActivity"
             android:exported="false" />
         <activity

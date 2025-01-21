@@ -28,8 +28,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.cunoraz.tagview.Tag;
 import com.cunoraz.tagview.TagView;
 import com.google.android.gms.common.api.GoogleApi;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.databinding.ActivityCreateProfileBinding;
+import com.northcoders.banditandroid.helper.LogoutHandler;
 import com.northcoders.banditandroid.model.Genre;
 import com.northcoders.banditandroid.model.Instrument;
 import com.northcoders.banditandroid.model.Profile;
@@ -66,14 +69,15 @@ public class CreateProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //EdgeToEdge.enable(this);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_create_profile);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.createProfileView), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        Log.i(TAG, "onCreate: current user: " + currentUser);
 
+//        findViewById(R.id.bt_logout).setOnClickListener(v -> {
+//            Log.i(TAG, "onCreate: logout clicked");
+//             LogoutHandler.getInstance().logout(this);
+//         });
         viewModel = new ViewModelProvider(this).get(CreateProfileViewModel.class);
 
         clickHandler = new CreateProfileClickHandler(userProfile, this, viewModel);
@@ -88,14 +92,15 @@ public class CreateProfileActivity extends AppCompatActivity {
         TagView genreTagView = findViewById(R.id.genreTagView);
         TagView instrumentTagView = findViewById(R.id.instrumentTagView);
 
-        submitBtn = findViewById(R.id.submitProfileBtn);
-
-        ScrollView scrollView = findViewById(R.id.createProfileScrollView);
-
-        submitBtn.setEnabled(false);
-
         binding.setUserProfile(userProfile);
         binding.setClickHandler(clickHandler);
+        ScrollView scrollView = findViewById(R.id.createProfileScrollView);
+
+
+        submitBtn = findViewById(R.id.submitProfileBtn);
+        submitBtn.setEnabled(false);
+
+
 
         profileRepository = new ProfileRepository(this.getApplication());
 
