@@ -1,38 +1,25 @@
 package com.northcoders.banditandroid.ui.createprofile;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.cunoraz.tagview.Tag;
 import com.cunoraz.tagview.TagView;
-import com.google.android.gms.common.api.GoogleApi;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.databinding.ActivityCreateProfileBinding;
-import com.northcoders.banditandroid.helper.LogoutHandler;
 import com.northcoders.banditandroid.model.Genre;
 import com.northcoders.banditandroid.model.Instrument;
 import com.northcoders.banditandroid.model.Profile;
@@ -64,7 +51,7 @@ public class CreateProfileActivity extends AppCompatActivity {
     Profile userProfile = new Profile();
     public static final String TAG = "CreateProfileActivity";
 
-    Button submitBtn;
+    ImageButton submitBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,13 +84,10 @@ public class CreateProfileActivity extends AppCompatActivity {
         ScrollView scrollView = findViewById(R.id.createProfileScrollView);
 
 
-        submitBtn = findViewById(R.id.submitProfileBtn);
+        submitBtn = findViewById(R.id.bt_save);
         submitBtn.setEnabled(false);
 
-
-
         profileRepository = new ProfileRepository(this.getApplication());
-
 
         //CHECK BOXES:
         bandCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
