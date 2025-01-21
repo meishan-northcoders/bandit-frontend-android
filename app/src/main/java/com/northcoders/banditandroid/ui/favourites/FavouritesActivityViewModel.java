@@ -23,13 +23,7 @@ public class FavouritesActivityViewModel extends AndroidViewModel {
     }
 
     List<Profile> getUserFavourites(){
-        MutableLiveData<List<Favourite>> mutableLiveData = favouriteRepository.getMutableLiveData();
-        List<Favourite> favourites = mutableLiveData.getValue();
-        List<Profile> profiles = new ArrayList<>();
-        favourites.forEach(favourite -> {
-            profiles.add(favourite.getProfile());
-
-        });
-        return profiles;
+        MutableLiveData<List<Profile>> mutableLiveData = favouriteRepository.getFavouriteProfiles();
+        return mutableLiveData.getValue();
     }
 }

@@ -14,6 +14,9 @@ import androidx.fragment.app.Fragment;
 import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.helper.LogoutHandler;
 import com.northcoders.banditandroid.ui.createprofile.CreateProfileActivity;
+import com.northcoders.banditandroid.ui.favourites.FavouritesActivityViewModel;
+import com.northcoders.banditandroid.ui.favourites.FavouritesPageActivity;
+import com.northcoders.banditandroid.ui.matchprofile.MatchingProfilesActivity;
 import com.northcoders.banditandroid.ui.updateprofile.UpdateProfileActivity;
 
 public class NavigationButtonsFragment extends Fragment {
@@ -46,12 +49,20 @@ public class NavigationButtonsFragment extends Fragment {
 
     private void onLikeClick() {
         // Handle Like button click
+
+        Intent intent = new Intent(getActivity(), MatchingProfilesActivity.class);
+        startActivity(intent);
+
         Log.d(TAG, "onLikeClick: Profile button clicked");
 
     }
 
     private void onFavoriteClick() {
         // Handle Favorite button click
+        Intent intent = new Intent(getActivity(), FavouritesPageActivity.class);
+        startActivity(intent);
+
+
         Log.d(TAG, "onFavoriteClick: Profile button clicked");
 
     }

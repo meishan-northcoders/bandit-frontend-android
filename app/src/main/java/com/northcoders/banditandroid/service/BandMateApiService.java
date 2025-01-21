@@ -52,7 +52,7 @@ public interface BandMateApiService {
     @POST("api/v1/messages/user")
     public Call<List<MessageResponseDTO>> getMessagesBetweenUsers(@Header("Authorization") String authHeader, @Body CorrespondentRequestDTO correspondentRequestDTO);
 
-    @GET("api/v1/favourites")
-    public Call<List<Favourite>> getUserFavourites();
+    @GET("api/v1/favourites/user")
+    public Call<List<Profile>> getUserFavourites(@Header("Authorization") String authHeader);
 
 }

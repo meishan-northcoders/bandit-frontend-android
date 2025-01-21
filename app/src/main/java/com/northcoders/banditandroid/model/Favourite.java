@@ -67,4 +67,15 @@ public class Favourite extends BaseObservable {
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
+
+    @Override
+    public String toString() {
+        return "Favourite{" +
+                "favId=" + favId +
+                ", favProfileId='" + favProfileId + '\'' +
+                ", yrFavProfileId='" + yrFavProfileId + '\'' +
+                ", isLikedOrDisliked='" + isLikedOrDisliked + '\'' +
+                ", profile=" + profile +
+                '}';
+    }
 }

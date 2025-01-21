@@ -33,7 +33,7 @@ public class FavouritesPageActivity extends AppCompatActivity implements Recycle
 
         profiles = viewModel.getUserFavourites();
 
-        profiles.forEach(System.out::println);
+        //profiles.forEach(System.out::println);
 
         adapter = new FavouriteProfilesAdapter(this, this, profiles, clickHandler);
 

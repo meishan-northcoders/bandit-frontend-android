@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.northcoders.banditandroid.helper.SharedPreferenceHelper;
 import com.northcoders.banditandroid.service.BandMateApiService;
 import com.northcoders.banditandroid.service.RetrofitInstance;
 
@@ -19,24 +20,30 @@ public class FavouriteRepository {
     Application application;
     BandMateApiService bandMateApiService;
 
-    private MutableLiveData<List<Favourite>> mutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Profile>> mutableLiveData = new MutableLiveData<>();
 
     public FavouriteRepository(Application application) {
         this.application = application;
         bandMateApiService = RetrofitInstance.getService();
     }
 
-    public MutableLiveData<List<Favourite>> getMutableLiveData() {
-        Call<List<Favourite>> favouriteCall = bandMateApiService.getUserFavourites();
-        favouriteCall.enqueue(new Callback<List<Favourite>>() {
+    public MutableLiveData<List<Profile>> getFavouriteProfiles() {
+
+        String token = SharedPreferenceHelper.getInstance(application.getApplicationContext()).getString("token", null);
+
+
+        Call<List<Profile>> favouriteCall = bandMateApiService.getUserFavourites(token);
+
+        favouriteCall.enqueue(new Callback<List<Profile>>() {
             @Override
-            public void onResponse(Call<List<Favourite>> call, Response<List<Favourite>> response) {
-                List<Favourite> favourites = response.body();
-                mutableLiveData.setValue(favourites);
+            public void onResponse(Call<List<Profile>> call, Response<List<Profile>> response) {
+                List<Profile> profiles = response.body();
+                profiles.forEach(System.out::println);
+                mutableLiveData.postValue(profiles);
             }
 
             @Override
-            public void onFailure(Call<List<Favourite>> call, Throwable t) {
+            public void onFailure(Call<List<Profile>> call, Throwable t) {
 
             }
         });
