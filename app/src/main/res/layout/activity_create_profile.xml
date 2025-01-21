@@ -11,9 +11,6 @@
             name="clickHandler"
             type="com.northcoders.banditandroid.ui.createprofile.CreateProfileClickHandler" />
 
-        <variable
-            name="spinnerAdapter"
-            type="android.widget.ArrayAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

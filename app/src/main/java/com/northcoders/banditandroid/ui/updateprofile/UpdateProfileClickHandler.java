@@ -69,6 +69,6 @@ public class UpdateProfileClickHandler {
 
 
     public void onLogoutBtnClick(View view){
-        LogoutHandler.getInstance().logout((CreateProfileActivity) context);
+        LogoutHandler.getInstance().logout((UpdateProfileActivity) context);
     }
 }

@@ -79,7 +79,10 @@ public class ProfileMatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return profileList.size()+1;
+        if(profileList != null){
+            return profileList.size()+1;
+        }
+        return 0;
     }
 
     @Override
