@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.databinding.ActivityMessageBinding;
 import com.northcoders.banditandroid.databinding.MessageItemCorrespondentBinding;
@@ -22,6 +23,7 @@ import com.northcoders.banditandroid.databinding.MessageItemUserBinding;
 import com.northcoders.banditandroid.model.CorrespondentRequestDTO;
 import com.northcoders.banditandroid.model.MessageRequestDTO;
 import com.northcoders.banditandroid.model.MessageResponseDTO;
+import com.northcoders.banditandroid.model.Profile;
 import com.northcoders.banditandroid.model.ProfileAccurate;
 import com.northcoders.banditandroid.model.ProfileType;
 
@@ -31,7 +33,7 @@ import java.util.List;
 public class MessageActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<MessageResponseDTO> messages;
-    private ProfileAccurate correspondentProfile;
+    private Profile correspondentProfile;
     private MessageAdapter messageAdapter;
     private MessageItemUserBinding messageItemUserBinding;
     private MessageItemCorrespondentBinding messageItemCorrespondentBinding;
@@ -49,7 +51,9 @@ public class MessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message);
 
         //TODO this will be updated when get CorrespondentProfile extracts the correspondent from the parcel sent from favourites, esp. the Class will change from AccurateProfile...
-        correspondentProfile = getCorrespondentProfile();
+        Gson converter = new Gson();
+        String profileStr = getIntent().getStringExtra("PROFILE");
+        correspondentProfile =  converter.fromJson(profileStr, Profile.class);
 
         //setup and populate recyclerview
         messageItemUserBinding = DataBindingUtil.setContentView(
@@ -81,7 +85,7 @@ public class MessageActivity extends AppCompatActivity {
         messageRequestDTO.setReceiverId(correspondentId);
         Log.i(TAG, "onCreate: messageRequestDTO: " + messageRequestDTO);
 
-        messageClickHandler = new MessageClickHandler(messageRequestDTO, this, viewModel);
+        messageClickHandler = new MessageClickHandler(messageRequestDTO, this, viewModel, correspondentProfile);
 
         activityMessageBinding.setClickHandler(messageClickHandler);
 
@@ -91,7 +95,6 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private void getAllMessages() {
-        ProfileAccurate correspondentProfile = getCorrespondentProfile();
         String correspondentId = correspondentProfile.getProfile_id();
         CorrespondentRequestDTO correspondentRequestDTO = new CorrespondentRequestDTO(correspondentId);
 
@@ -114,8 +117,4 @@ public class MessageActivity extends AppCompatActivity {
         messageAdapter.notifyDataSetChanged();
     }
 
-    //to be updated with real profile class when profile journey is merged, and to extract correspondent profile from parcel passed to MessageActivity when Favourites activity is merged
-    private ProfileAccurate getCorrespondentProfile() {
-        return new ProfileAccurate("testCorrespondentId2", "testUsername1", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/4.gif", ProfileType.BAND, "testDescription", 100, 200, 10, null, null);
-    }
 }

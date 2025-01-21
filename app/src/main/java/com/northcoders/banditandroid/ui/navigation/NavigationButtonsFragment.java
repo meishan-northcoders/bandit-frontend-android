@@ -19,6 +19,8 @@ import com.northcoders.banditandroid.ui.favourites.FavouritesPageActivity;
 import com.northcoders.banditandroid.ui.matchprofile.MatchingProfilesActivity;
 import com.northcoders.banditandroid.ui.updateprofile.UpdateProfileActivity;
 
+import java.util.Objects;
+
 public class NavigationButtonsFragment extends Fragment {
     private static final String TAG = "NavigationButtonsFragment";
 
@@ -43,15 +45,20 @@ public class NavigationButtonsFragment extends Fragment {
     private void onProfileClick() {
         // Handle Profile button click
         Log.d(TAG, "onProfileClick: Profile button clicked");
-        Intent intent = new Intent(getActivity(), UpdateProfileActivity.class);
-        startActivity(intent);
+        if(requireActivity().getClass() !=  UpdateProfileActivity.class) {
+            Intent intent = new Intent(getActivity(), UpdateProfileActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void onLikeClick() {
         // Handle Like button click
 
-        Intent intent = new Intent(getActivity(), MatchingProfilesActivity.class);
-        startActivity(intent);
+        if(requireActivity().getClass() !=  MatchingProfilesActivity.class){
+            Intent intent = new Intent(getActivity(), MatchingProfilesActivity.class);
+            startActivity(intent);
+        }
+
 
         Log.d(TAG, "onLikeClick: Profile button clicked");
 
@@ -59,8 +66,10 @@ public class NavigationButtonsFragment extends Fragment {
 
     private void onFavoriteClick() {
         // Handle Favorite button click
-        Intent intent = new Intent(getActivity(), FavouritesPageActivity.class);
-        startActivity(intent);
+        if(requireActivity().getClass() !=  FavouritesPageActivity.class){
+            Intent intent = new Intent(getActivity(), FavouritesPageActivity.class);
+            startActivity(intent);
+        }
 
 
         Log.d(TAG, "onFavoriteClick: Profile button clicked");

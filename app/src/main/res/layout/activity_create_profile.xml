@@ -281,9 +281,8 @@
                 android:layout_height="56dp"
                 android:layout_marginHorizontal="16dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/logout"
-                android:contentDescription="Logout"
-                android:onClick="@{clickHandler::onLogoutBtnClick}"/>
+                android:src="@drawable/save_icon"
+                android:onClick="@{clickHandler::submitBtnClick}"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,14 +22,14 @@ public class MessageAdapter extends RecyclerView.Adapter {
     private MessageItemUserBinding messageItemUserBinding;
     private MessageItemCorrespondentBinding messageItemCorrespondentBinding;
     private List<MessageResponseDTO> messages;
-    private ProfileAccurate correspondentProfile;
+    private Profile correspondentProfile;
 
     private static final int VIEW_TYPE_USER_MESSAGE = 1;
     private static final int VIEW_TYPE_CORRESPONDENT_MESSAGE = 2;
 
     private final String TAG = "MessageAdapter";
 
-    public MessageAdapter(List<MessageResponseDTO> messages, ProfileAccurate correspondentProfile) {
+    public MessageAdapter(List<MessageResponseDTO> messages, Profile correspondentProfile) {
         this.messages = messages;
         this.correspondentProfile = correspondentProfile;
     }

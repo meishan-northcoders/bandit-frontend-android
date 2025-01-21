@@ -22,7 +22,8 @@
             android:id="@+id/createProfileScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/createProfileTitle"
+            android:layout_marginTop="16dp"
             tools:layout_editor_absoluteX="0dp">
 
             <LinearLayout
@@ -216,6 +217,7 @@
             android:id="@+id/createProfileTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:layout_marginStart="8dp"
             android:background="#FFFFFF"
             android:fontFamily="@font/delius_swash_caps"
@@ -243,44 +245,47 @@
         <LinearLayout
             android:id="@+id/footerLayout"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="80dp"
             android:orientation="horizontal"
             android:gravity="center"
             android:background="@color/neutralGray"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <Button
+            <ImageButton
                 android:id="@+id/submitProfileBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/save"
+                android:contentDescription="save"
                 android:textStyle="bold"
+                android:src="@drawable/save_icon"
                 android:backgroundTint="@color/neutralGray"
                 android:textColor="@color/colorPrimary"
                 android:onClick="@{clickHandler::submitBtnClick}" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/profileRecommendationsFooterBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:contentDescription="match"
                 android:text="@string/home"
+                android:src="@drawable/favcontacts"
                 android:textStyle="bold"
                 android:backgroundTint="@color/neutralGray"
                 android:textColor="@color/colorPrimary"
                 android:onClick="@{clickHandler::onHomBtnClick}" />
 
 
-            <ImageButton
-                android:id="@+id/bt_logout"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:layout_marginHorizontal="16dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/logout"
-                android:contentDescription="Logout"
-                android:onClick="@{clickHandler::onLogoutBtnClick}"/>
+<!--            <ImageButton-->
+<!--                android:id="@+id/bt_logout"-->
+<!--                android:layout_width="56dp"-->
+<!--                android:layout_height="56dp"-->
+<!--                android:layout_marginHorizontal="16dp"-->
+<!--                android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--                android:src="@drawable/logout"-->
+<!--                android:contentDescription="Logout"-->
+<!--                android:onClick="@{clickHandler::onLogoutBtnClick}"/>-->
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

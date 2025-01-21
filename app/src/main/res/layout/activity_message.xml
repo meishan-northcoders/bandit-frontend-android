@@ -14,7 +14,7 @@
             type="com.northcoders.banditandroid.ui.messsage.MessageClickHandler" />
         <variable
             name="correspondentProfile"
-            type="com.northcoders.banditandroid.model.ProfileAccurate" />
+            type="com.northcoders.banditandroid.model.Profile" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,7 +62,7 @@
                 android:layout_marginTop="8sp"
                 android:layout_marginBottom="8sp"
                 android:hint="Placeholder"
-                android:text="@{correspondentProfile.username}"
+                android:text="@{correspondentProfile.profile_name}"
                 android:fontFamily="@font/delius_swash_caps"
                 android:textColor="@color/black"
                 android:textSize="24sp"
@@ -130,6 +130,6 @@
                 android:backgroundTint="@color/neutralGray"
                 app:tint="@color/black"
                 android:src="@android:drawable/ic_menu_send"
-                android:onClick="@{clickHandler::onSendButtonClicked}"/>
+                android:onClick="@{() -> clickHandler.onSendButtonClicked(correspondentProfile)}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
