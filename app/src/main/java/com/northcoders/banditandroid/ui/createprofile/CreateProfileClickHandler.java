@@ -43,6 +43,10 @@ public class CreateProfileClickHandler {
 
         viewModel.createUserProfile(profile);
         Toast.makeText(view.getContext(), "Profile created successfully", Toast.LENGTH_LONG).show();
+
+        onHomBtnClick(view);
+
+
         // intent to move to matching activity
 
     }
