@@ -74,13 +74,10 @@ public class CreateProfileActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         Log.i(TAG, "onCreate: current user: " + currentUser);
 
-        findViewById(R.id.bt_logout).setOnClickListener(v -> {
-            Log.i(TAG, "onCreate: logout clicked");
-             LogoutHandler.getInstance().logout(this);
-             Log.d(TAG, "onCreate: logout clicked");
-         });
-
-
+//        findViewById(R.id.bt_logout).setOnClickListener(v -> {
+//            Log.i(TAG, "onCreate: logout clicked");
+//             LogoutHandler.getInstance().logout(this);
+//         });
         viewModel = new ViewModelProvider(this).get(CreateProfileViewModel.class);
 
         clickHandler = new CreateProfileClickHandler(userProfile, this, viewModel);
@@ -95,14 +92,15 @@ public class CreateProfileActivity extends AppCompatActivity {
         TagView genreTagView = findViewById(R.id.genreTagView);
         TagView instrumentTagView = findViewById(R.id.instrumentTagView);
 
-        submitBtn = findViewById(R.id.submitProfileBtn);
-
-        ScrollView scrollView = findViewById(R.id.createProfileScrollView);
-
-        submitBtn.setEnabled(false);
-
         binding.setUserProfile(userProfile);
         binding.setClickHandler(clickHandler);
+        ScrollView scrollView = findViewById(R.id.createProfileScrollView);
+
+
+        submitBtn = findViewById(R.id.submitProfileBtn);
+        submitBtn.setEnabled(false);
+
+
 
         profileRepository = new ProfileRepository(this.getApplication());
 

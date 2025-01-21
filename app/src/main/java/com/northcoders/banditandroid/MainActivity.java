@@ -36,17 +36,13 @@ import com.northcoders.banditandroid.model.ProfileRepository;
 import com.northcoders.banditandroid.service.BandMateApiService;
 import com.northcoders.banditandroid.service.RetrofitInstance;
 import com.northcoders.banditandroid.ui.createprofile.CreateProfileActivity;
-import com.northcoders.banditandroid.ui.testmaps.TestMapActivity;
+//import com.northcoders.banditandroid.ui.testmaps.TestMapActivity;
 import com.northcoders.banditandroid.ui.matchprofile.MatchingProfilesActivity;
 import com.northcoders.banditandroid.ui.updateprofile.UpdateProfileActivity;
 
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,9 +66,8 @@ public class MainActivity extends AppCompatActivity {
             // Initialize sign in intent
             FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
-                //changeActivity(currentUser);
-
-                moveToMatchesPage(currentUser); // call match profile activity
+               changeActivity(currentUser);
+                //moveToMatchesPage(currentUser); // call match profile activity
                 //createProfile(currentUser);
             } else {
                 authenticateWithGoogle();
@@ -122,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 .addCredentialOption(signInWithGoogleOption)
                 .build();
         CredentialManager credentialManager = CredentialManager.create(this);
-
         credentialManager.getCredentialAsync(this,
                 request,
                 new CancellationSignal(),
@@ -154,16 +148,16 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "Firebase login success");
                     FirebaseUser user = task.getResult().getUser();
                     assert user != null;
-
-                    if (Objects.requireNonNull(task.getResult().getAdditionalUserInfo()).isNewUser()) {
-                        //New user registration
-                        Log.i(TAG, "new user registration flow");  // CREATE NEW PROFILE IN BACKEND
-                        changeActivity(user);
-                    } else {
-                        Log.i(TAG, "existing user flow"); // RETRIEVE PROFILE AND DISPLAY
-                        moveToMatchesPage(user);
-                        //   changeActivity(user);
-                    }
+                    changeActivity(user);
+//                    if (Objects.requireNonNull(task.getResult().getAdditionalUserInfo()).isNewUser()) {
+//                        //New user registration
+//                        Log.i(TAG, "new user registration flow");  // CREATE NEW PROFILE IN BACKEND
+//                        changeActivity(user);
+//                    } else {
+//                        Log.i(TAG, "existing user flow"); // RETRIEVE PROFILE AND DISPLAY
+//                        moveToMatchesPage(user);
+//                           //changeActivity(user);
+//                    }
                 } else {
                     Log.e(TAG, "Firebase login failed", task.getException());
                 }
@@ -186,20 +180,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onChanged(Profile profile) {
                         if (profile == null) {
-
                             System.out.println("profile is null");
                             Intent createProfile = new Intent(MainActivity.this, CreateProfileActivity.class); // CreateProfileActivity.class
                             createProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(createProfile);
 
                         } else {
-                            System.out.println("profile not null" + profile.toString());
-                            Intent updateProfile = new Intent(MainActivity.this, UpdateProfileActivity.class); // CreateProfileActivity.class
-                            Gson converter = new Gson();
-                            updateProfile.putExtra("USER_PROFILE", converter.toJson(profile));
-                            startActivity(updateProfile);
+                            moveToMatchesPage(user);  //instead invoke this update in match activity button click
                         }
-
                     }
                 });
 
@@ -215,16 +203,10 @@ public class MainActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 Log.i(TAG, "Token retrieved successfully");
                 // Handle UI updates for the signed-in user.
-
-
                 //TODO check if user has signed in before here.
                 Intent matchProfile = new Intent(this, MatchingProfilesActivity.class);
                 matchProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 this.startActivity(matchProfile);
-
-                //Intent profileIntent = new Intent(MainActivity.this, ActivityProfile.class);
-                //profileIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                //startActivity(profileIntent);
                 SharedPreferenceHelper.getInstance(getApplicationContext()).putString("token", task.getResult().getToken());
             } else {
                 Log.e(TAG, "Token retrieval failed", task.getException());

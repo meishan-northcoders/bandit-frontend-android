@@ -11,4 +11,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_more_items">No more items</string>
     <string name="overlay_animation">overlay_animation</string>
+    <string name="save">Save</string>
+    <string name="home">Home</string>
 </resources>

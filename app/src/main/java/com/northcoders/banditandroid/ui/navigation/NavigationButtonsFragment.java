@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.helper.LogoutHandler;
 import com.northcoders.banditandroid.ui.createprofile.CreateProfileActivity;
+import com.northcoders.banditandroid.ui.updateprofile.UpdateProfileActivity;
 
 public class NavigationButtonsFragment extends Fragment {
     private static final String TAG = "NavigationButtonsFragment";
@@ -39,7 +40,7 @@ public class NavigationButtonsFragment extends Fragment {
     private void onProfileClick() {
         // Handle Profile button click
         Log.d(TAG, "onProfileClick: Profile button clicked");
-        Intent intent = new Intent(getActivity(), CreateProfileActivity.class);
+        Intent intent = new Intent(getActivity(), UpdateProfileActivity.class);
         startActivity(intent);
     }
 

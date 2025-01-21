@@ -25,37 +25,28 @@ public class ProfileRepository {
     BandMateApiService apiService;
 
     private Application application;
-
     private MutableLiveData<ArrayList<Profile>> mutableAllProfiles = new MutableLiveData<>();
     private MutableLiveData<List<Profile>> mutableFilteredProfiles = new MutableLiveData<>();
-
-
     private MutableLiveData<Profile> mutableUserProfile = new MutableLiveData<>();
-
 
     public ProfileRepository(Application application) {
         this.application = application;
         apiService = RetrofitInstance.getService();
     }
-
-
     //gets all profiles
-    public MutableLiveData<ArrayList<Profile>> getMutableAllProfiles(){
+    public MutableLiveData<ArrayList<Profile>> getMutableAllProfiles() {
         Call<ArrayList<Profile>> call = apiService.getAllProfiles();
 
         call.enqueue(new Callback<ArrayList<Profile>>() {
             @Override
             public void onResponse(Call<ArrayList<Profile>> call, Response<ArrayList<Profile>> response) {
-
                 ArrayList<Profile> profiles = response.body();
-
                 mutableAllProfiles.setValue(profiles);
                 System.out.println("Successfully retrieved all profiles");
             }
-
             @Override
             public void onFailure(Call<ArrayList<Profile>> call, Throwable t) {
-                System.out.println("Failed to retrieve all profiles, reason: " + t) ;
+                System.out.println("Failed to retrieve all profiles, reason: " + t);
 
             }
         });
@@ -63,7 +54,7 @@ public class ProfileRepository {
         return mutableAllProfiles;
     }
 
-    public MutableLiveData<Profile> getUserProfile(){
+    public MutableLiveData<Profile> getUserProfile() {
 
         String token = SharedPreferenceHelper.getInstance(application.getApplicationContext()).getString("token", null);
 
@@ -92,7 +83,7 @@ public class ProfileRepository {
 
     }
 
-    public void createUserProfile(Profile profile){
+    public void createUserProfile(Profile profile) {
 
         String token = SharedPreferenceHelper.getInstance(application.getApplicationContext()).getString("token", null);
 
@@ -113,7 +104,7 @@ public class ProfileRepository {
 
     }
 
-    public void putProfile(Profile profile){
+    public void putProfile(Profile profile) {
         String token = SharedPreferenceHelper.getInstance(application.getApplicationContext()).getString("token", null);
 
         Call<Profile> call = apiService.putProfile(token, profile);
@@ -132,7 +123,7 @@ public class ProfileRepository {
 
     }
 
-    public MutableLiveData<List<Profile>> getFilteredProfiles(String authToken){
+    public MutableLiveData<List<Profile>> getFilteredProfiles(String authToken) {
         Call<List<Profile>> listOfProfiles = apiService.getFilteredProfiles(authToken);
 
         listOfProfiles.enqueue(new Callback<List<Profile>>() {
