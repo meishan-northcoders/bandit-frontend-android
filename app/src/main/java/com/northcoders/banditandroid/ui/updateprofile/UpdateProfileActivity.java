@@ -4,23 +4,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.cunoraz.tagview.Tag;
 import com.cunoraz.tagview.TagView;
-import com.google.gson.Gson;
 import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.databinding.ActivityUpdateProfileBinding;
 import com.northcoders.banditandroid.model.Genre;
@@ -45,7 +41,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     Profile userProfile;
     public static final String TAG = "CreateProfileActivity";
 
-    Button submitBtn;
+    ImageButton submitBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
