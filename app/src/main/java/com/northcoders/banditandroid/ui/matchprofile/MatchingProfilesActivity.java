@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.northcoders.banditandroid.R;
 import com.northcoders.banditandroid.databinding.ActivityMatchingProfilesBinding;
+import com.northcoders.banditandroid.model.Favourite;
 import com.northcoders.banditandroid.model.Genre;
 import com.northcoders.banditandroid.model.Instrument;
 import com.northcoders.banditandroid.model.Profile;
@@ -80,6 +81,11 @@ public class MatchingProfilesActivity extends AppCompatActivity {
                     // Handle left swipe (e.g., Dislike)
                 } else if (direction == ItemTouchHelper.RIGHT) {
                     // Handle right swipe (e.g., Like)
+                    Profile profile = profileList.get(position);
+                    Favourite favourite = new Favourite();
+                    favourite.setYrFavProfileId(profile.getProfile_id());
+                    matchProfileViewModel.addFavouriteProfile(favourite);
+                    System.out.println(profile.getProfile_id()+ " " + profile.getProfile_name());
                     animationOverlay.setImageResource(R.drawable.fireworks);
                 }
                 animateOverlay(animationOverlay);

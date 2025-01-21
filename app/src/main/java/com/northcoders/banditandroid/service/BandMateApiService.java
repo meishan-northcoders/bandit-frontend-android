@@ -55,4 +55,7 @@ public interface BandMateApiService {
     @GET("api/v1/favourites/user")
     public Call<List<Profile>> getUserFavourites(@Header("Authorization") String authHeader);
 
+    @POST("api/v1/favourites")
+    public Call<Favourite> createFavourite(@Header("Authorization") String authHeader,@Body Favourite favourite);
+
 }
