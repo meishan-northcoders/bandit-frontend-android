@@ -1,7 +1,10 @@
 package com.northcoders.banditandroid;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,12 +17,14 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.northcoders.banditandroid.helper.LogoutHandler;
+import com.northcoders.banditandroid.ui.messsage.MessageActivity;
 
 public class ActivityProfile extends AppCompatActivity {
     private ImageView ivImage;
     private TextView uName;
     private TextView uemail;
     private Button btLogout;
+    private Button btMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,9 @@ public class ActivityProfile extends AppCompatActivity {
         uName = findViewById(R.id.user_name);
         uemail = findViewById(R.id.user_email);
         btLogout = findViewById(R.id.bt_logout);
+// to test messages
+        btMessage = findViewById(R.id.bt_message);
+//
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             // No user is signed in
@@ -49,6 +57,16 @@ public class ActivityProfile extends AppCompatActivity {
         btLogout.setOnClickListener(v -> {
             LogoutHandler.getInstance().logout(this);
         });
+
+        //to test message
+        btMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+                startActivity(intent);
+            }
+        });
+        //
     }
 
 }
