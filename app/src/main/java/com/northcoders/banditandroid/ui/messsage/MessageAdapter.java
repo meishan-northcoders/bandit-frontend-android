@@ -112,6 +112,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     //to be updated with real profile class when profile journey is merged, and to extract correspondent profile from parcel passed to MessageActivity when Favourites Activity is merged
     private ProfileAccurate getUserProfile() {
-        return new ProfileAccurate("activeUserId1", "testUsername1", "testURL", ProfileType.BAND, "testDescription", 100, 200, 10, null, null);
+        return new ProfileAccurate("c401bxWARycXXcuxdxkN2nf6H2F2", "testUsername1", "testURL", ProfileType.BAND, "testDescription", 100, 200, 10, null, null);
     }
 }
