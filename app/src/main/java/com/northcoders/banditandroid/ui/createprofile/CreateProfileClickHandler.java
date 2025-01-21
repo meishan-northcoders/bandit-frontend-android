@@ -41,10 +41,16 @@ public class CreateProfileClickHandler {
 
         System.out.println("submit button clicked!");
 
-        viewModel.createUserProfile(profile);
-        Toast.makeText(view.getContext(), "Profile created successfully", Toast.LENGTH_LONG).show();
+        if(profile.checkAttributesNotNull()){
+            viewModel.createUserProfile(profile);
+            Toast.makeText(view.getContext(), "Profile created successfully", Toast.LENGTH_LONG).show();
 
-        onHomBtnClick(view);
+            onHomBtnClick(view);
+        }
+        else{
+            Toast.makeText(view.getContext(), "Failed to create profile, please complete all text", Toast.LENGTH_LONG).show();
+        }
+
 
 
         // intent to move to matching activity
