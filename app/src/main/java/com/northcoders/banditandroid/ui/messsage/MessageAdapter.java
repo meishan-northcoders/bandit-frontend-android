@@ -90,7 +90,10 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return messages.size();
+        if(messages != null){
+            return messages.size();
+        }
+        return 0;
     }
 
     public static class UserMessageViewHolder extends RecyclerView.ViewHolder {
