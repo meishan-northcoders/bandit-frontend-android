@@ -129,7 +129,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="Tag your faourite genres:"
+                    android:text="Tag your favourite genres:"
                     android:textSize="24sp"
                     app:layout_constraintTop_toBottomOf="@id/editDescriptionInput" />
 
@@ -278,13 +278,14 @@
 <!--            android:background="@color/neutralGray"-->
 <!--            app:layout_constraintBottom_toBottomOf="parent">-->
 
-        <ImageButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/bt_save"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginHorizontal="16dp"
-
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:backgroundTint="@color/neutralGray"
+            android:tint="@color/black"
             android:onClick="@{clickHandler::submitBtnClick}"
             android:src="@drawable/save_icon"
             app:layout_constraintBottom_toBottomOf="parent"

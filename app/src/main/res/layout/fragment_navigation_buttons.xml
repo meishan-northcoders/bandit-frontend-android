@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="16dp"
     android:orientation="horizontal"
     android:gravity="center_horizontal">
@@ -14,6 +14,7 @@
         android:layout_marginHorizontal="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/cog"
+        app:tint="@color/black"
         android:contentDescription="Profile" />
 
     <ImageButton
@@ -23,6 +24,7 @@
         android:layout_marginHorizontal="16dp"
         android:src="@drawable/favcontacts"
         android:background="?attr/selectableItemBackgroundBorderless"
+        app:tint="@color/black"
         android:contentDescription="Like" />
 
     <ImageButton
@@ -32,6 +34,7 @@
         android:layout_marginHorizontal="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@android:drawable/btn_star_big_on"
+        app:tint="@color/black"
         android:contentDescription="Favorite" />
 
     <ImageButton
@@ -41,5 +44,6 @@
         android:layout_marginHorizontal="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/logout"
+        app:tint="@color/black"
         android:contentDescription="Logout" />
 </LinearLayout>

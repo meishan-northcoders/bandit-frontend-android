@@ -43,6 +43,7 @@
                     android:layout_below="@id/card_image"
                     android:layout_margin="16dp"
                     android:text="Name"
+                    android:fontFamily="@font/delius_swash_caps"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
