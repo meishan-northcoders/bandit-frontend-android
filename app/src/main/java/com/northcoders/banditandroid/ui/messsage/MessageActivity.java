@@ -113,6 +113,7 @@ public class MessageActivity extends AppCompatActivity {
         messageAdapter = new MessageAdapter(messages, correspondentProfile);
         recyclerView.setAdapter(messageAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(layoutManager);
         messageAdapter.notifyDataSetChanged();
     }
