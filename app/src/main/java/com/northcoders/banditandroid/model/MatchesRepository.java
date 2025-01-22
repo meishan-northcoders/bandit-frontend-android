@@ -35,15 +35,20 @@ public class MatchesRepository {
 
             @Override
             public void onResponse(Call<Favourite> call, Response<Favourite> response) {
-                Toast.makeText(application.getApplicationContext(), "Favourite added successfully", Toast.LENGTH_SHORT).show();
                 Favourite favourite = response.body();
                 mutableLiveData.setValue(favourite);
+                if(favourite == null){
+                    Toast.makeText(application.getApplicationContext(), "You have already liked this person!", Toast.LENGTH_SHORT);
+                }
+                else{
+                    Toast.makeText(application.getApplicationContext(), "Favourite added successfully", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<Favourite> call, Throwable t) {
-                Toast.makeText(application.getApplicationContext(), "Failed to add favourite", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "onFailure: ");
+                //Toast.makeText(application.getApplicationContext(), "Failed to add favourite", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
     }
